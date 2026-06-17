@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book | The Breath Reset</title>
+    <meta name="description" content="Book an intro session, one-on-one breathwork session, six-week reset series, or event inquiry with The Breath Reset.">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html"><img class="brand-logo" src="logo.svg" alt=""><span>The Breath Reset</span></a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav" data-nav-toggle><span></span><span></span></button>
+      <nav class="site-nav" id="site-nav" data-nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#method">The Method</a>
+        <a href="events.html">Events</a>
+        <a href="videos.html">Videos</a>
+        <a href="booking.html" class="nav-cta" aria-current="page">Book</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="booking-hero section full-bleed">
+        <div class="section-inner two-column align-end">
+          <div class="reveal">
+            <p class="eyebrow">Booking</p>
+            <h1>Start gently. We will choose the right breathwork for you.</h1>
+          </div>
+          <div class="booking-intro reveal">
+            <p>Use the form to request an intro session, a one-on-one session, the six-week Breath Reset Series, or a private event.</p>
+            <div class="price-row">
+              <span>Single session</span>
+              <strong>$175 + GST</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section booking-section">
+        <div class="booking-grid">
+          <form class="booking-form reveal" data-booking-form>
+            <div class="form-row">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="form-row">
+              <label for="session">What would you like to book?</label>
+              <select id="session" name="session" required>
+                <option value="Intro session">Intro session</option>
+                <option value="One-on-one breathwork session">One-on-one breathwork session</option>
+                <option value="Six-week Breath Reset Series">Six-week Breath Reset Series</option>
+                <option value="Private event inquiry">Private event inquiry</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="state">What are you hoping to support?</label>
+              <textarea id="state" name="state" rows="5" placeholder="Stress, anxiety, sleep, breath retraining, burnout, emotional release, curiosity..."></textarea>
+            </div>
+            <div class="form-row" id="event-inquiry">
+              <label for="availability">Availability</label>
+              <input id="availability" name="availability" type="text" placeholder="A few days or times that usually work for you">
+            </div>
+            <button class="button primary form-submit" type="submit">Send Booking Request</button>
+            <p class="form-note">This opens your email app with the details filled in.</p>
+          </form>
+
+          <aside class="booking-aside reveal">
+            <p class="section-kicker">What to expect</p>
+            <h2>What happens in the first session.</h2>
+            <ol class="session-list">
+              <li>Arrive, check in, and complete a brief safety screen</li>
+              <li>Name what you want support with</li>
+              <li>Learn one simple breath or nervous system concept</li>
+              <li>Move through a guided breathflow at your pace</li>
+              <li>Ground, integrate, and leave with a simple practice</li>
+            </ol>
+            <div class="caution-box">
+              <strong>Important</strong>
+              <p>Deeper breathwork may not be suitable for everyone. If you have significant medical or mental health conditions, pregnancy, seizure history, heart concerns, or recent surgery, please check with a qualified professional first.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div><strong>The Breath Reset</strong><p>Safety first. Capacity next. Release when ready.</p></div>
+      <div class="footer-links"><a href="index.html">Home</a><a href="events.html">Events</a><a href="videos.html">Videos</a><a href="mailto:hello@thebreathreset.com">Email</a></div>
+      <p class="disclaimer">Breathwork is not a replacement for therapy, medical care, or crisis support.</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
