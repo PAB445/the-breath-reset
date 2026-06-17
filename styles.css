@@ -390,39 +390,6 @@ body:not(.home) .site-nav a[aria-current="page"] {
   align-items: center;
 }
 
-.hero-trust {
-  margin-top: 26px;
-  max-width: 640px;
-  display: grid;
-  gap: 10px;
-}
-
-.hero-trust-safety {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
-  padding: 9px 14px 9px 12px;
-  width: fit-content;
-  border-radius: 999px;
-  background: rgba(255, 253, 248, 0.06);
-  border: 1px solid rgba(255, 253, 248, 0.16);
-  backdrop-filter: blur(6px);
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: rgba(255, 253, 248, 0.82);
-}
-
-.hero-trust-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--sage);
-  box-shadow: 0 0 0 4px rgba(143, 165, 138, 0.22);
-  flex: 0 0 auto;
-}
-
 .button {
   min-height: 50px;
   display: inline-flex;
@@ -2284,17 +2251,6 @@ textarea {
 
   .hero-actions .button {
     width: 100%;
-  }
-
-  .hero-trust {
-    margin-top: 22px;
-  }
-
-  .hero-trust-safety {
-    width: 100%;
-    justify-content: flex-start;
-    font-size: 0.78rem;
-    padding: 9px 12px;
   }
 
   .scroll-cue,
