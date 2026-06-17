@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1120">
+  <defs>
+    <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F6E8D2"/>
+      <stop offset=".52" stop-color="#AFC0A6"/>
+      <stop offset="1" stop-color="#D19073"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#202721" flood-opacity=".14"/>
+    </filter>
+    <style>
+      .bg { fill: #F8F1E8; }
+      .panel { fill: #FFFAF3; stroke: rgba(32, 39, 33, .12); stroke-width: 1; }
+      .ink { stroke: #202721; }
+      .inkFill { fill: #202721; }
+      .sage { stroke: #8FA58A; }
+      .clay { stroke: #D19073; }
+      .cream { stroke: #F8F1E8; }
+      .label { fill: #202721; font-family: Manrope, Inter, Arial, sans-serif; font-size: 28px; font-weight: 750; }
+      .small { fill: rgba(32, 39, 33, .68); font-family: Manrope, Inter, Arial, sans-serif; font-size: 18px; font-weight: 500; }
+      .brand { fill: #202721; font-family: Georgia, 'Times New Roman', serif; font-size: 58px; font-style: italic; }
+      .brandSans { fill: #202721; font-family: Manrope, Inter, Arial, sans-serif; font-size: 42px; font-weight: 800; }
+      .rule { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="1120"/>
+  <text x="84" y="92" class="brandSans">The Breath Reset</text>
+  <text x="84" y="130" class="small">Logo concept sheet: calmer, more premium, still easy to recognise at small sizes.</text>
+
+  <g transform="translate(80 190)">
+    <rect class="panel" width="440" height="360" rx="28" filter="url(#shadow)"/>
+    <g transform="translate(150 54)">
+      <circle cx="70" cy="70" r="70" fill="#202721"/>
+      <circle cx="70" cy="70" r="48" fill="none" stroke="url(#warm)" stroke-width="6"/>
+      <path d="M25 74c15-22 30-22 45 0s30 22 45 0" class="rule cream" stroke-width="7"/>
+      <path d="M86 48l19 19-19 19" class="rule clay" stroke-width="7"/>
+    </g>
+    <text x="42" y="235" class="label">Reset Ring</text>
+    <text x="42" y="270" class="small">The clearest mark: breath wave + reset arrow.</text>
+    <text x="42" y="298" class="small">Best for web, favicon, socials, booking links.</text>
+  </g>
+
+  <g transform="translate(580 190)">
+    <rect class="panel" width="440" height="360" rx="28" filter="url(#shadow)"/>
+    <g transform="translate(145 48)">
+      <circle cx="76" cy="76" r="72" fill="#202721"/>
+      <path d="M31 78c19-32 39-32 60 0s41 32 61 0" class="rule" stroke="url(#warm)" stroke-width="9"/>
+      <path d="M32 99c18-20 37-20 58 0s41 20 61 0" class="rule cream" stroke-width="5" opacity=".58"/>
+      <path d="M76 25v102" class="rule cream" stroke-width="3" opacity=".24"/>
+    </g>
+    <text x="42" y="235" class="label">Inhale / Exhale</text>
+    <text x="42" y="270" class="small">More abstract and elegant.</text>
+    <text x="42" y="298" class="small">Feels human, soft, and less tech-like.</text>
+  </g>
+
+  <g transform="translate(1080 190)">
+    <rect class="panel" width="440" height="360" rx="28" filter="url(#shadow)"/>
+    <g transform="translate(150 48)">
+      <circle cx="74" cy="76" r="72" fill="#202721"/>
+      <path d="M49 36v80" class="rule" stroke="url(#warm)" stroke-width="14"/>
+      <path d="M99 36v80" class="rule cream" stroke-width="14"/>
+      <path d="M36 133c18 14 57 14 76 0" class="rule clay" stroke-width="5"/>
+    </g>
+    <text x="42" y="235" class="label">Pause Mark</text>
+    <text x="42" y="270" class="small">A reset as a nervous-system pause.</text>
+    <text x="42" y="298" class="small">Memorable, minimal, slightly more editorial.</text>
+  </g>
+
+  <g transform="translate(80 610)">
+    <rect class="panel" width="440" height="360" rx="28" filter="url(#shadow)"/>
+    <g transform="translate(146 52)">
+      <circle cx="74" cy="74" r="72" fill="#202721"/>
+      <path d="M42 126c-10-25-10-55 0-79 8-18 22-29 32-29s24 11 32 29c10 24 10 54 0 79" fill="none" stroke="url(#warm)" stroke-width="7" stroke-linecap="round"/>
+      <path d="M34 78c15-17 30-17 45 0s30 17 45 0" class="rule cream" stroke-width="6"/>
+    </g>
+    <text x="42" y="235" class="label">Body + Breath</text>
+    <text x="42" y="270" class="small">More somatic and embodied.</text>
+    <text x="42" y="298" class="small">Good if the practice should feel personal.</text>
+  </g>
+
+  <g transform="translate(580 610)">
+    <rect class="panel" width="440" height="360" rx="28" filter="url(#shadow)"/>
+    <g transform="translate(145 47)">
+      <circle cx="76" cy="76" r="72" fill="#202721"/>
+      <path d="M124 37a55 55 0 1 0 6 71" fill="none" stroke="url(#warm)" stroke-width="7" stroke-linecap="round"/>
+      <path d="M118 30l23 4-11 21" class="rule clay" stroke-width="6"/>
+      <path d="M38 80c14-19 28-19 42 0s28 19 42 0" class="rule cream" stroke-width="6"/>
+    </g>
+    <text x="42" y="235" class="label">Soft Reset Arrow</text>
+    <text x="42" y="270" class="small">Literal reset, made less app-like.</text>
+    <text x="42" y="298" class="small">Strong for the brand name, very legible.</text>
+  </g>
+
+  <g transform="translate(1080 610)">
+    <rect class="panel" width="440" height="360" rx="28" filter="url(#shadow)"/>
+    <g transform="translate(142 47)">
+      <circle cx="76" cy="76" r="72" fill="#202721"/>
+      <path d="M28 91c18-24 34-36 49-36s31 12 49 36" fill="none" stroke="url(#warm)" stroke-width="8" stroke-linecap="round"/>
+      <path d="M29 103h94" class="rule cream" stroke-width="5" opacity=".7"/>
+      <path d="M45 66c14-12 27-12 41 0" class="rule clay" stroke-width="5"/>
+    </g>
+    <text x="42" y="235" class="label">Horizon Breath</text>
+    <text x="42" y="270" class="small">Grounded, spacious, retreat-like.</text>
+    <text x="42" y="298" class="small">The least literal, but very beautiful.</text>
+  </g>
+
+  <g transform="translate(80 1016)">
+    <text class="small">Recommendation: start with Reset Ring, then explore Inhale / Exhale if you want something softer and more abstract.</text>
+  </g>
+</svg>
