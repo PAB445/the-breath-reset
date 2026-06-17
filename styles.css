@@ -484,7 +484,6 @@ body:not(.home) .button.secondary {
   color: rgba(31, 36, 33, 0.78);
 }
 
-.soft-statement,
 .lead {
   color: var(--charcoal);
   font-size: clamp(1.16rem, 2vw, 1.45rem);
