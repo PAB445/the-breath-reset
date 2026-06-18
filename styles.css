@@ -129,16 +129,10 @@ body:not(.home) .site-header {
 }
 
 .brand-logo {
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   flex: 0 0 auto;
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.16));
-  transition: filter 280ms ease;
-}
-
-.site-header.is-scrolled .brand-logo,
-body:not(.home) .brand-logo {
-  filter: drop-shadow(0 4px 10px rgba(32, 39, 33, 0.12));
+  object-fit: contain;
 }
 
 .site-nav {
@@ -195,6 +189,17 @@ body:not(.home) .site-nav a[aria-current="page"] {
   background: var(--sage);
   color: var(--warm-white);
   opacity: 1;
+}
+
+.site-nav .nav-social {
+  color: rgba(255, 253, 248, 0.72);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.site-header.is-scrolled .site-nav .nav-social,
+body:not(.home) .site-nav .nav-social {
+  color: var(--olive);
 }
 
 .nav-toggle {
@@ -2121,6 +2126,11 @@ textarea {
 
   .site-nav a {
     border-radius: 8px;
+  }
+
+  .site-nav .nav-social {
+    color: var(--olive);
+    opacity: 1;
   }
 
   .two-column,
