@@ -1847,6 +1847,81 @@ details p {
   animation: breathe 6.5s ease-in-out infinite;
 }
 
+/* Vertical reel player (real video, audio included) */
+.featured-reel {
+  position: relative;
+  width: 100%;
+  max-width: 332px;
+  margin-inline: auto;
+  aspect-ratio: 9 / 16;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #100d0b;
+  box-shadow: var(--shadow);
+}
+
+.featured-reel video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.practice-detail .text-flow ul {
+  margin: 0;
+  padding-left: 1.1em;
+  color: rgba(31, 36, 33, 0.74);
+}
+
+.practice-detail .text-flow li { margin-bottom: 8px; }
+
+/* ---- Reel library: a row of playable vertical flows ---- */
+.reel-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(32px, 4vw, 60px);
+  align-items: start;
+  margin-top: clamp(32px, 4vw, 52px);
+}
+
+.reel-item {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.reel-item .featured-reel { margin-inline: auto; }
+
+.reel-meta { text-align: center; max-width: 360px; margin-inline: auto; }
+
+.reel-meta .reel-state {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--clay);
+  margin-bottom: 12px;
+}
+
+.reel-meta h3 {
+  font-family: var(--display-font);
+  font-size: 1.5rem;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.reel-meta p {
+  margin: 0 0 14px;
+  color: rgba(31, 36, 33, 0.72);
+}
+
+.reel-meta .reel-pattern {
+  font-size: 0.86rem;
+  letter-spacing: 0.04em;
+  color: rgba(31, 36, 33, 0.55);
+}
+
 .video-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Videos | The Breath Reset</title>
     <meta name="description" content="Guided breathwork videos for calm, better breathing, nervous system capacity, and integration.">
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="assets/brand/logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://images.unsplash.com">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <header class="site-header" data-header>
-      <a class="brand" href="index.html"><img class="brand-logo" src="logo.png" alt=""><span>The Breath Reset</span></a>
+      <a class="brand" href="index.html"><img class="brand-logo" src="assets/brand/logo.png" alt=""><span>The Breath Reset</span></a>
       <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav" data-nav-toggle><span></span><span></span></button>
       <nav class="site-nav" id="site-nav" data-nav>
         <a href="index.html">Home</a>
@@ -30,60 +29,92 @@
       <section class="video-hero section full-bleed">
         <div class="section-inner video-layout">
           <div class="reveal">
-            <p class="eyebrow">Guided practice library</p>
-            <h1>Short practices for the moments you need a reset.</h1>
-            <p>Start with a few minutes. Choose calm, focus, sleep, capacity, or gentle release.</p>
+            <p class="eyebrow">Guided practice</p>
+            <h1>Breath resets for whatever state you’re in.</h1>
+            <p>Three guided flows. Press play, watch the orb, and let the pace lead — no counting, no forcing. Start with the coherent reset below.</p>
           </div>
-          <div class="featured-video reveal" aria-label="Featured video placeholder">
-            <div class="play-button"></div>
-            <div class="video-wave"></div>
-            <span>5-minute reset practice</span>
+          <figure class="featured-reel reveal">
+            <video controls playsinline preload="metadata"
+                   poster="breathing-reel/media/coherent-cover.png">
+              <source src="breathing-reel/media/coherent-reel.mp4" type="video/mp4">
+              Your browser doesn’t support embedded video.
+              <a href="breathing-reel/media/coherent-reel.mp4">Download the practice</a>.
+            </video>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-inner two-column practice-detail">
+          <div class="reveal">
+            <p class="section-kicker">Start here</p>
+            <h2>The 90-second coherent breath reset.</h2>
+          </div>
+          <div class="text-flow reveal">
+            <p>Coherent breathing gently nudges your nervous system toward balance. Equal, unhurried breaths — in for five, out for five — signal safety to the body.</p>
+            <ul>
+              <li>Best for: feeling switched on, wired, or tense.</li>
+              <li>How long: ninety seconds, nine slow breaths.</li>
+              <li>How to use it: watch the orb, match your breath, let the pace lead.</li>
+            </ul>
+            <p>When you finish, take one normal breath and notice what feels different. Save it for when you need to come back to yourself.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section full-bleed soft-band">
+        <div class="section-inner">
+          <div class="reveal">
+            <p class="section-kicker">Two more resets</p>
+            <h2>Pick the one that matches the moment.</h2>
+          </div>
+          <div class="reel-library">
+            <article class="reel-item reveal">
+              <figure class="featured-reel">
+                <video controls playsinline preload="metadata"
+                       poster="breathing-reel/media/extended-exhale-cover.png">
+                  <source src="breathing-reel/media/extended-exhale-reel.mp4" type="video/mp4">
+                  Your browser doesn’t support embedded video.
+                  <a href="breathing-reel/media/extended-exhale-reel.mp4">Download the practice</a>.
+                </video>
+              </figure>
+              <div class="reel-meta">
+                <span class="reel-state">For when you need to come down</span>
+                <h3>Extended exhale breath</h3>
+                <p>A longer exhale than inhale tells the body the threat has passed — a slow downshift for stress, overwhelm, and winding down for sleep.</p>
+                <p class="reel-pattern">In for 4 · out for 6 · 90 seconds</p>
+              </div>
+            </article>
+
+            <article class="reel-item reveal">
+              <figure class="featured-reel">
+                <video controls playsinline preload="metadata"
+                       poster="breathing-reel/media/box-breathing-cover.png">
+                  <source src="breathing-reel/media/box-breathing-reel.mp4" type="video/mp4">
+                  Your browser doesn’t support embedded video.
+                  <a href="breathing-reel/media/box-breathing-reel.mp4">Download the practice</a>.
+                </video>
+              </figure>
+              <div class="reel-meta">
+                <span class="reel-state">For when your mind feels scattered</span>
+                <h3>Box breathing</h3>
+                <p>Equal counts with steady holds bring structure and focus. The soft square traces each phase, so the pauses feel deliberate, not frozen.</p>
+                <p class="reel-pattern">In 4 · hold 4 · out 4 · hold 4 · 2 minutes</p>
+              </div>
+            </article>
           </div>
         </div>
       </section>
 
       <section class="section">
-        <div class="center-heading reveal">
-          <p class="section-kicker">Video series</p>
-          <h2>Choose what your body needs today.</h2>
-        </div>
-        <div class="video-grid">
-          <article class="video-card reveal">
-            <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=900&q=82" alt="Person resting with hands near the body">
-            <div>
-              <span>Relax</span>
-              <h3>Longer Exhale Reset</h3>
-              <p>Slow down, soften tension, and give your body a clearer signal of safety.</p>
-            </div>
-          </article>
-          <article class="video-card reveal">
-            <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=900&q=82" alt="Quiet room with soft natural light">
-            <div>
-              <span>Retrain</span>
-              <h3>Rib and Diaphragm Awareness</h3>
-              <p>Feel where your breath moves and begin shifting shallow or chesty breathing.</p>
-            </div>
-          </article>
-          <article class="video-card reveal">
-            <img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=900&q=82" alt="Warm sunrise over a calm horizon">
-            <div>
-              <span>Release</span>
-              <h3>Supported Connected Breath</h3>
-              <p>A fuller practice for gentle activation, body awareness, and time to integrate.</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section full-bleed soft-band">
         <div class="section-inner two-column">
           <div class="reveal">
             <p class="section-kicker">Coming next</p>
             <h2>A useful library, not another noisy feed.</h2>
           </div>
           <div class="text-flow reveal">
-            <p>Videos are organised by state: anxious, tense, flat, disconnected, overwhelmed, focused, sleepy, or ready to go deeper.</p>
-            <p>Each practice includes a clear intention, simple pacing, relevant safety notes, and a short integration cue.</p>
+            <p>More practices are on the way, organised by state: anxious, tense, flat, disconnected, overwhelmed, focused, sleepy, or ready to go deeper.</p>
+            <p>Each one includes a clear intention, simple pacing, relevant safety notes, and a short integration cue.</p>
             <a class="button primary" href="booking.html">Work one-on-one</a>
           </div>
         </div>

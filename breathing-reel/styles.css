@@ -1,0 +1,459 @@
+/* ===========================================================================
+   THE BREATH RESET — 90s coherent breath reset (vertical reel)
+   ---------------------------------------------------------------------------
+   ADJUST COLOURS HERE  ->  :root variables below
+   ADJUST TIMING        ->  script.js  (CONFIG object)
+   ADJUST TEXT          ->  index.html
+   =========================================================================== */
+
+/* Self-hosted fonts (avoids file:// + Google Fonts CORS issues) */
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("fonts/InstrumentSerif-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("fonts/InstrumentSerif-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Manrope";
+  src: url("fonts/Manrope.ttf") format("truetype");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---- Brand palette (deep, warm, grounded) ---- */
+  --bg:        #100d0b;   /* warm black base */
+  --bg-deep:   #0a0807;   /* darkest (vignette edges) */
+  --bg-lift:   #1a1512;   /* subtle warm lift behind orb */
+
+  --sage:      #8fa58a;   /* muted sage green accent (matches site) */
+  --sage-deep: #5f745e;   /* deeper sage */
+  --sage-glow: 143, 165, 138; /* sage as RGB for rgba() glows */
+
+  --offwhite:  #efe7d9;   /* warm off-white text */
+  --muted:     rgba(239, 231, 217, 0.55); /* subtle grey-white */
+  --faint:     rgba(239, 231, 217, 0.16);
+
+  /* ---- Fonts ---- */
+  --serif: "Instrument Serif", Georgia, serif;
+  --sans:  "Manrope", system-ui, -apple-system, sans-serif;
+
+  /* ---- Orb geometry ---- */
+  --orb-size: 600px;      /* diameter at 100% (full inhale) */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #000;            /* letterbox bars */
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* The black frame the vertical stage is centred in */
+.viewport {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #000;
+  overflow: hidden;
+}
+
+/* Fixed-resolution stage; scaled to fit via JS (transform) */
+.stage {
+  position: relative;
+  width: 1080px;
+  height: 1920px;
+  background: radial-gradient(120% 90% at 50% 42%, var(--bg-lift) 0%, var(--bg) 46%, var(--bg-deep) 100%);
+  transform-origin: center center;
+  overflow: hidden;
+  color: var(--offwhite);
+  font-family: var(--sans);
+}
+
+/* ============================ ATMOSPHERE ============================ */
+/* Very slow drifting blurred fields behind the orb. Kept subtle. */
+.atmos { position: absolute; inset: 0; overflow: hidden; }
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+.blob-1 {
+  width: 900px; height: 900px;
+  left: -160px; top: 380px;
+  background: radial-gradient(circle, rgba(var(--sage-glow), 0.22), transparent 65%);
+  animation: drift1 46s ease-in-out infinite;
+}
+.blob-2 {
+  width: 760px; height: 760px;
+  right: -180px; bottom: 240px;
+  background: radial-gradient(circle, rgba(95, 116, 94, 0.20), transparent 65%);
+  animation: drift2 58s ease-in-out infinite;
+}
+
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(70px, -60px) scale(1.08); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-60px, 50px) scale(1.06); }
+}
+
+/* Edge vignette to keep attention centred */
+.vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(120% 100% at 50% 45%, transparent 52%, rgba(0,0,0,0.55) 100%);
+}
+
+/* ============================ GRAIN ============================ */
+.grain {
+  position: absolute; inset: -20%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* ============================ MIST CANVAS ============================ */
+.mist {
+  position: absolute; inset: 0;
+  width: 1080px; height: 1920px;
+  pointer-events: none;
+}
+
+/* ============================ CONTENT LAYOUT ============================ */
+.content {
+  position: absolute; inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 150px 90px 130px;
+  transition: opacity 1.2s ease;
+}
+
+/* ---- Top copy ---- */
+.topcopy { text-align: center; }
+.eyebrow {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--offwhite);
+  opacity: 0.85;
+}
+.subeyebrow {
+  margin-top: 22px;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+/* ---- Centre group (orb + cue), vertically centred ---- */
+.middle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 120px;
+}
+
+.orb-wrap {
+  position: relative;
+  width: var(--orb-size);
+  height: var(--orb-size);
+  display: grid;
+  place-items: center;
+}
+
+/* Soft outer glow — brightens with the breath (--b: 0..1) */
+.orb-glow {
+  position: absolute;
+  width: 150%; height: 150%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--sage-glow), 0.55), rgba(var(--sage-glow), 0) 62%);
+  filter: blur(50px);
+  opacity: calc(0.16 + 0.52 * var(--b));
+  transform: scale(calc(0.82 + 0.26 * var(--b)));
+}
+
+/* The orb itself. JS drives the exact scale via --s (e.g. 0.62..1.00) so the
+   orb is tied to phase progress, not a CSS loop. --b (0..1) is the normalised
+   breath brightness for glow/edges. Orb stays centred; only breathes. */
+.orb {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  transform: scale(var(--s));
+  background:
+    radial-gradient(circle at 50% 42%,
+      rgba(var(--sage-glow), 0.42) 0%,
+      rgba(var(--sage-glow), 0.16) 42%,
+      rgba(var(--sage-glow), 0.04) 66%,
+      rgba(16, 13, 11, 0) 74%);
+  box-shadow:
+    inset 0 0 120px rgba(var(--sage-glow), calc(0.10 + 0.18 * var(--b))),
+    inset 0 0 40px rgba(255, 255, 255, calc(0.04 + 0.06 * var(--b)));
+}
+/* crisp inner edge ring for a premium, defined core */
+.orb::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  transform: scale(var(--s));
+  border: 1px solid rgba(var(--sage-glow), calc(0.18 + 0.22 * var(--b)));
+}
+
+/* ---- Box breathing: rounded-square progress path ----
+   Hidden unless the flow is box breathing (.stage.is-box). A faint rounded
+   square (deliberately soft, not technical) with a glowing comet that travels
+   one lap per breath cycle. The comet keeps moving during holds, so a hold
+   reads as "time passing", never as a frozen animation. The comet cx/cy are
+   set from script.js (see updateBox + boxPoint). */
+.boxpath {
+  position: absolute;
+  width: 720px; height: 720px;
+  pointer-events: none;
+  overflow: visible;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.stage.is-box .boxpath { opacity: 1; }
+.stage.is-box .progress { display: none; }   /* avoid clutter with the square */
+.box-track {
+  fill: none;
+  stroke: rgba(239, 231, 217, 0.10);
+  stroke-width: 2;
+}
+.box-comet {
+  fill: var(--sage);
+  filter: drop-shadow(0 0 10px rgba(var(--sage-glow), 0.85));
+}
+
+/* Overall progress arc — sits just outside the orb, starts at 12 o'clock */
+.progress {
+  position: absolute;
+  width: 720px;
+  height: 720px;
+  transform: rotate(-90deg);     /* start the stroke at the top */
+  pointer-events: none;
+  overflow: visible;
+}
+.progress circle { fill: none; stroke-width: 2.5; }
+.progress-track { stroke: rgba(239, 231, 217, 0.07); }
+.progress-bar {
+  stroke: rgba(var(--sage-glow), 0.85);
+  stroke-linecap: round;
+  /* circumference = 2 * PI * 315 = 1979.2; offset is set from JS */
+  stroke-dasharray: 1979.2;
+  stroke-dashoffset: 1979.2;     /* fully empty until the session runs */
+  filter: drop-shadow(0 0 6px rgba(var(--sage-glow), 0.4));
+  transition: stroke-dashoffset 0.12s linear;
+}
+
+/* Concentric rings — expand & brighten on inhale, settle on exhale */
+.rings { position: absolute; inset: 0; display: grid; place-items: center; }
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--sage-glow), 0.5);
+}
+.ring-1 {
+  width: 112%; height: 112%;
+  transform: scale(calc(0.92 + 0.16 * var(--b)));
+  opacity: calc(0.10 + 0.32 * var(--b));
+}
+.ring-2 {
+  width: 134%; height: 134%;
+  transform: scale(calc(0.90 + 0.18 * var(--b)));
+  opacity: calc(0.06 + 0.22 * var(--b));
+}
+.ring-3 {
+  width: 160%; height: 160%;
+  transform: scale(calc(0.88 + 0.20 * var(--b)));
+  opacity: calc(0.03 + 0.14 * var(--b));
+}
+
+/* ---- Breath cue ---- */
+.cue { display: flex; flex-direction: column; align-items: center; gap: 46px; }
+
+.cue-text {
+  height: 80px;
+  width: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* JS re-inserts this span on each phase change, re-triggering the fade-in. */
+.cue-text span {
+  font-family: var(--sans);
+  font-size: 60px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--offwhite);
+  white-space: nowrap;
+  animation: cueFade 0.6s ease;
+}
+@keyframes cueFade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---- 5-dot timing indicator ---- */
+.dots { display: flex; gap: 22px; }
+.dots i {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--faint);
+  transition: background 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
+}
+.dots i.on {
+  background: var(--sage);
+  transform: scale(1.18);
+  box-shadow: 0 0 16px rgba(var(--sage-glow), 0.6);
+}
+
+/* ---- Bottom brand ---- */
+.brand { text-align: center; }
+.brand-name {
+  font-family: var(--serif);
+  font-size: 44px;
+  letter-spacing: 0.01em;
+  color: var(--offwhite);
+}
+.brand-tag {
+  margin-top: 10px;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+/* ============================ END CARD ============================ */
+.endcard {
+  position: absolute; inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.3s ease;
+}
+.endcard-inner { padding: 0 110px; }
+.end-line {
+  font-family: var(--serif);
+  font-size: 56px;
+  line-height: 1.18;
+  color: var(--offwhite);
+}
+.end-divider {
+  width: 120px; height: 1px;
+  background: var(--sage-dark);
+  margin: 54px auto;
+  opacity: 0.7;
+}
+.end-name {
+  font-family: var(--serif);
+  font-size: 88px;
+  line-height: 1.05;
+  color: var(--offwhite);
+}
+.end-tag {
+  margin-top: 18px;
+  font-size: 34px;
+  font-style: italic;
+  font-family: var(--serif);
+  color: var(--sage);
+  letter-spacing: 0.02em;
+}
+.end-cta {
+  margin-top: 60px;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* When the session ends, fade the breathing UI out, end card in */
+.stage.ending .content,
+.stage.ending .mist { opacity: 0; }
+.stage.ending .endcard { opacity: 1; }
+
+/* ============================ START SCREEN ============================ */
+.startscreen {
+  position: absolute; inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(120% 90% at 50% 45%, var(--bg-lift), var(--bg-deep));
+  z-index: 10;
+  transition: opacity 0.8s ease;
+}
+.startscreen.hidden { opacity: 0; pointer-events: none; }
+.start-inner { text-align: center; }
+.start-eyebrow {
+  font-family: var(--sans);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-bottom: 26px;
+}
+.start-title {
+  font-family: var(--serif);
+  font-size: 54px;
+  line-height: 1.1;
+  color: var(--offwhite);
+  margin: 0 auto 56px;
+  max-width: 760px;
+}
+.begin {
+  font-family: var(--sans);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--offwhite);
+  background: transparent;
+  border: 1px solid rgba(var(--sage-glow), 0.5);
+  border-radius: 999px;
+  padding: 26px 70px;
+  cursor: pointer;
+  transition: background 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+}
+.begin:hover {
+  background: rgba(var(--sage-glow), 0.12);
+  border-color: var(--sage);
+  transform: translateY(-2px);
+}
+.start-hint {
+  margin-top: 44px;
+  font-size: 22px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+/* Respect reduced-motion: keep it gentle, drop the heavy drift */
+@media (prefers-reduced-motion: reduce) {
+  .blob-1, .blob-2 { animation: none; }
+}

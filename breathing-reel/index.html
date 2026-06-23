@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>The Breath Reset — guided breath flows</title>
+
+  <!-- Fonts are self-hosted in /fonts (see styles.css @font-face) -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ===========================================================
+       VIEWPORT: black letterbox. The 1080x1920 .stage is scaled
+       (via JS) to fit any screen so a screen-recording captures
+       the full vertical frame.
+
+       CHOOSE A FLOW with the ?flow= URL parameter:
+         index.html?flow=coherent         (5s in / 5s out, 90s)
+         index.html?flow=extendedExhale   (4s in / 6s out, 90s)
+         index.html?flow=boxBreathing     (4-4-4-4 holds, 120s)
+       Default is coherent. All timing/copy lives in FLOWS in script.js.
+       =========================================================== -->
+  <div class="viewport">
+    <div class="stage" id="stage" style="--s:0.7; --b:0">
+
+      <!-- Layer 1: warm-black base + slow atmospheric drift -->
+      <div class="atmos" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="vignette"></span>
+      </div>
+
+      <!-- Layer 2: subtle film grain -->
+      <div class="grain" aria-hidden="true"></div>
+
+      <!-- Layer 3: mist / particle field -->
+      <canvas class="mist" id="mist" aria-hidden="true"></canvas>
+
+      <!-- Layer 4: all foreground content -->
+      <div class="content" id="content">
+
+        <!-- TOP COPY (set per-flow from script.js) -->
+        <header class="topcopy">
+          <p class="eyebrow" id="eyebrow">For when your body feels switched on</p>
+          <p class="subeyebrow" id="subeyebrow">A 90-second coherent breath reset</p>
+        </header>
+
+        <!-- CENTRE: breathing orb (does not move, only breathes) -->
+        <div class="middle">
+          <div class="orb-wrap">
+            <div class="orb-glow"></div>
+            <div class="rings" aria-hidden="true">
+              <span class="ring ring-1"></span>
+              <span class="ring ring-2"></span>
+              <span class="ring ring-3"></span>
+            </div>
+
+            <!-- BOX BREATHING ONLY: rounded-square progress path.
+                 Hidden unless the flow sets box:true. A faint track plus a
+                 soft "comet" head that travels one lap per breath cycle, so
+                 the holds clearly feel like time passing, not a freeze. -->
+            <svg class="boxpath" id="boxPath" viewBox="0 0 720 720" aria-hidden="true">
+              <rect class="box-track" x="30" y="30" width="660" height="660" rx="120" ry="120"></rect>
+              <circle class="box-comet" id="boxComet" r="7" cx="30" cy="690"></circle>
+            </svg>
+
+            <!-- Overall progress arc (whole session). -->
+            <svg class="progress" viewBox="0 0 720 720" aria-hidden="true">
+              <circle class="progress-track" cx="360" cy="360" r="315"></circle>
+              <circle class="progress-bar" id="progressBar" cx="360" cy="360" r="315"></circle>
+            </svg>
+
+            <div class="orb"></div>
+          </div>
+
+          <!-- BREATH CUE + TIMING DOTS (dots are rebuilt per phase in JS) -->
+          <div class="cue" id="cue">
+            <div class="cue-text" id="cueText"></div>
+            <div class="dots" id="dots"></div>
+          </div>
+        </div>
+
+        <!-- BOTTOM BRAND -->
+        <footer class="brand">
+          <p class="brand-name">The Breath Reset</p>
+          <p class="brand-tag">Relax. Retrain. Release.</p>
+        </footer>
+      </div>
+
+      <!-- END CARD (last few seconds; text set per-flow) -->
+      <div class="endcard" id="endcard">
+        <div class="endcard-inner">
+          <p class="end-line" id="endLine1">Take one normal breath.</p>
+          <p class="end-line" id="endLine2">Notice what feels different.</p>
+          <div class="end-divider"></div>
+          <p class="end-name">The Breath Reset</p>
+          <p class="end-tag">Relax. Retrain. Release.</p>
+          <p class="end-cta" id="endCta">Save this for when you need to come back to yourself.</p>
+        </div>
+      </div>
+
+      <!-- START SCREEN: tap to begin (also the moment to start audio) -->
+      <div class="startscreen" id="startScreen">
+        <div class="start-inner">
+          <p class="start-eyebrow">The Breath Reset</p>
+          <p class="start-title" id="startTitle">For when your body feels switched on</p>
+          <button class="begin" id="beginBtn" type="button">Begin</button>
+          <p class="start-hint" id="startHint">90&#8201;seconds &middot; coherent breathing</p>
+        </div>
+      </div>
+
+      <!-- =========================================================
+           AUDIO — ambient pad (per flow) + soft bell work out of
+           the box. The <source> for #ambient is set per-flow in JS.
+           ========================================================= -->
+      <audio id="ambient" loop preload="auto"></audio>
+      <audio id="bell" src="audio/bell.mp3" preload="auto"></audio>
+      <!--
+      <audio id="voiceover"  src="audio/voiceover.mp3"    preload="auto"></audio>
+      <audio id="toneInhale" src="audio/tone-inhale.mp3"  preload="auto"></audio>
+      <audio id="toneExhale" src="audio/tone-exhale.mp3"  preload="auto"></audio>
+      -->
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
