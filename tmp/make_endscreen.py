@@ -128,6 +128,6 @@ img.alpha_composite(logo, (CX - LOGO_SZ // 2, logo_y))
 
 # ---------------- finish ----------------
 out = img.convert("RGB").resize((1280, 720), Image.LANCZOS)
-out_path = os.path.join(ROOT, "assets", "social", "the_breath_reset_end_screen.png")
+out_path = os.path.join(ROOT, "assets", "social", "youtube", "founder-video", "end-screen.png")
 out.save(out_path, "PNG")
 print("saved", out_path)

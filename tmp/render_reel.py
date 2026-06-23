@@ -7,7 +7,7 @@ path, cue, dots, brand, end card). Output is ready for Instagram / CapCut.
 Run:   python3 tmp/render_reel.py              (renders all flows)
        REEL_FLOW=boxBreathing python3 ...      (single flow)
        REEL_TEST=1 REEL_FLOW=boxBreathing ...  (a few sample frames + PNGs)
-Out:   breathing-reel/media/<slug>-reel.mp4
+Out:   assets/social/instagram/practices/<slug>/reel.mp4
 """
 import os, sys, math
 import numpy as np
@@ -40,8 +40,7 @@ CUE_FADE = 0.6
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 FONTS = os.path.join(ROOT, "breathing-reel", "fonts")
-MEDIA = os.path.join(ROOT, "breathing-reel", "media")
-os.makedirs(MEDIA, exist_ok=True)
+PRACTICES = os.path.join(ROOT, "assets", "social", "instagram", "practices")
 
 def font(name, size): return ImageFont.truetype(os.path.join(FONTS, name), size)
 def manrope(size, weight=600):
@@ -206,7 +205,9 @@ def render_flow(fid, flow):
     bg_end.alpha_composite(endcard)
     bg_end_np = np.asarray(bg_end.convert("RGB"), float)
 
-    out = os.path.join(MEDIA, f"{slug}-reel.mp4")
+    out_dir = os.path.join(PRACTICES, slug)
+    os.makedirs(out_dir, exist_ok=True)
+    out = os.path.join(out_dir, "reel.mp4")
     if TEST:
         out = os.path.join(HERE, f"reel_test_{slug}.mp4")
         frame_iter = [0, int(cyc * FPS) - 2, nframes - 60, nframes - 20]

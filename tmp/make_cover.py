@@ -199,6 +199,6 @@ draw.text((PAD_X, ty + int(16 * S)), "Why I started The Breath Reset", font=sub_
 
 # ---------------- finish ----------------
 out = img.convert("RGB").resize((1280, 720), Image.LANCZOS)
-out_path = os.path.join(ROOT, "assets", "social", "the_breath_reset_founder_video_cover.png")
+out_path = os.path.join(ROOT, "assets", "social", "youtube", "founder-video", "cover.png")
 out.save(out_path, "PNG")
 print("saved", out_path)

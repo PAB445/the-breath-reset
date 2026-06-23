@@ -7,7 +7,7 @@ same design language as the earlier YouTube cover/end screen.
 Copy comes from tmp/flows.py (single source of truth). Re-run after edits:
   python3 tmp/make_reel_cards.py
 
-Outputs -> breathing-reel/media/<slug>-cover.png and <slug>-end.png
+Outputs -> assets/social/instagram/practices/<slug>/cover.png and end.png
 """
 import os, sys, math
 import numpy as np
@@ -32,8 +32,7 @@ CLAY      = (209, 144, 115)
 HERE  = os.path.dirname(os.path.abspath(__file__))
 ROOT  = os.path.dirname(HERE)
 FONTS = os.path.join(ROOT, "breathing-reel", "fonts")
-MEDIA = os.path.join(ROOT, "breathing-reel", "media")
-os.makedirs(MEDIA, exist_ok=True)
+PRACTICES = os.path.join(ROOT, "assets", "social", "instagram", "practices")
 
 def font(name, size): return ImageFont.truetype(os.path.join(FONTS, name), size)
 def manrope(size, w=600):
@@ -208,7 +207,9 @@ def render_cover(flow):
 
     center_tracked(d, 1822, "RELAX · RETRAIN · RELEASE", manrope(21, 600), SAGE_DARK, 5)
 
-    out = os.path.join(MEDIA, f"{flow['slug']}-cover.png")
+    out_dir = os.path.join(PRACTICES, flow["slug"])
+    os.makedirs(out_dir, exist_ok=True)
+    out = os.path.join(out_dir, "cover.png")
     img.convert("RGB").save(out); print("saved", os.path.relpath(out, ROOT))
 
 # =============================== END =================================
@@ -237,7 +238,9 @@ def render_end(flow):
     logo = load_logo(220)
     img.alpha_composite(logo, (W // 2 - 110, 1410 - 110))
 
-    out = os.path.join(MEDIA, f"{flow['slug']}-end.png")
+    out_dir = os.path.join(PRACTICES, flow["slug"])
+    os.makedirs(out_dir, exist_ok=True)
+    out = os.path.join(out_dir, "end.png")
     img.convert("RGB").save(out); print("saved", os.path.relpath(out, ROOT))
 
 if __name__ == "__main__":
