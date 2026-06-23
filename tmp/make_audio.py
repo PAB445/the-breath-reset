@@ -46,8 +46,9 @@ def lowpass_box(x, k):
     y = (c[k:] - c[:-k]) / k
     return np.concatenate([np.full(k - 1, y[0]), y])[:len(x)]
 
-def ambient(flow):
-    dur = flow["total"]
+def ambient(flow, dur=None):
+    if dur is None:
+        dur = flow["total"]
     t = np.arange(int(dur * SR)) / SR
     # sample the breath envelope coarsely then upsample (orb_scale per-sample is slow)
     tc = np.linspace(0, dur, int(dur * 50))
@@ -108,6 +109,21 @@ def export_mp3(name, sig):
 def mix_at(track, snd, at):
     i = int(at * SR); j = min(i + len(snd), len(track)); track[i:j] += snd[:j - i]
 
+# durations for the long-form YouTube master — keep in sync with
+# FORMATS["youtube"] in tmp/render_reel.py
+LONG_DUR     = 300
+LONG_ENDCARD = 4
+
+def make_master(flow, dur, endCard, suffix=""):
+    """ambient pad + opening/closing bell, written to tmp/master-<slug><suffix>.wav."""
+    master = ambient(flow, dur).astype(np.float64)
+    mix_at(master, bell(gain=0.5), 0.0)
+    mix_at(master, bell(gain=0.5), dur - endCard)
+    master *= 0.92 / np.max(np.abs(master))
+    path = os.path.join(HERE, f"master-{flow['slug']}{suffix}.wav")
+    write_wav(path, master)
+    print("  ->", os.path.relpath(path, ROOT))
+
 # --------------------------------------------------------------------------
 print("Shared bell + tones...")
 export_mp3("bell", bell())
@@ -117,15 +133,10 @@ export_mp3("tone-exhale", tone(False))
 for fid, flow in FLOWS.items():
     slug = flow["slug"]
     print(f"Flow {fid} ({slug}, {flow['total']}s)...")
-    amb = ambient(flow)
-    export_mp3(f"ambient-{slug}", amb)
-
-    # full master for the MP4: ambient + opening/closing bell
-    master = ambient(flow).astype(np.float64)
-    mix_at(master, bell(gain=0.5), 0.0)
-    mix_at(master, bell(gain=0.5), flow["total"] - flow["endCard"])
-    master *= 0.92 / np.max(np.abs(master))
-    write_wav(os.path.join(HERE, f"master-{slug}.wav"), master)
-    print("  -> tmp/master-%s.wav" % slug)
+    # web ambient loop (unchanged)
+    export_mp3(f"ambient-{slug}", ambient(flow))
+    # masters for the MP4 renders
+    make_master(flow, flow["total"], flow["endCard"], "")       # Instagram reel / YouTube short
+    make_master(flow, LONG_DUR, LONG_ENDCARD, "-long")          # long-form 16:9 YouTube
 
 print("Done.")
