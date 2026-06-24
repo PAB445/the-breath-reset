@@ -1,2 +1,30 @@
+# OS
 .DS_Store
 Thumbs.db
+
+# Dev / test artifacts
+output/
+.playwright-cli/
+tmp/master-*.wav
+tmp/*.wav
+tmp/test_*.mp4
+tmp/frame_*.png
+tmp/reel_test_*.mp4
+
+# Social-only assets (not referenced by the website)
+# Website uses: assets/social/instagram/practices/<slug>/reel.mp4 + cover.png
+#              assets/social/youtube/founder-video/*.png
+
+# Long-form YouTube exports (~5 min, 16:9) — upload to YouTube separately
+assets/social/youtube/long/
+
+# YouTube Shorts — copies of the Instagram reels; regenerate via render_reel.py
+assets/social/youtube/shorts/
+
+# End cards (baked into videos; cover.png is the site poster)
+assets/social/instagram/practices/*/end.png
+
+# Static PNG decks for manual CapCut / Instagram assembly
+assets/social/instagram/reel-frames/
+assets/social/instagram/carousels/
+assets/social/instagram/posts/
