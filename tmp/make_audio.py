@@ -78,13 +78,40 @@ def bell(dur=4.5, base=440.0, gain=0.6):
     s *= gain / np.max(np.abs(s))
     return s.astype(np.float32)
 
-def tone(rising=True, dur=1.8, gain=0.18):
-    t = np.arange(int(dur * SR)) / SR
-    f0, f1 = (174.6, 220.0) if rising else (220.0, 174.6)
-    f = np.linspace(f0, f1, len(t))
-    s = np.sin(2 * np.pi * np.cumsum(f) / SR) + 0.5 * np.sin(2 * np.pi * np.cumsum(f * 1.5) / SR)
-    s *= np.sin(np.pi * np.linspace(0, 1, len(t))) ** 1.5
-    s *= gain / np.max(np.abs(s))
+# Soft, eyes-closed phase markers. Pitch DIRECTION is the primary cue
+# (rise = inhale, fall = exhale, steady = hold), reinforced by timbre
+# (inhale brighter, exhale warmer). Kept low so they sit under the pad.
+CUE_SPEC = {
+    "inhale": dict(dur=0.75, f0=196.0, f1=294.0, gain=0.34,
+                   parts=[(1.0, 1.0), (2.0, 0.42), (3.0, 0.12)]),   # rising, bright
+    "exhale": dict(dur=0.95, f0=294.0, f1=196.0, gain=0.30,
+                   parts=[(1.0, 1.0), (0.5, 0.18), (2.0, 0.12)]),   # falling, warm
+    "hold":   dict(dur=0.55, f0=233.0, f1=233.0, gain=0.26,
+                   parts=[(1.0, 1.0), (2.0, 0.10)]),                # steady, neutral
+}
+
+def cue(kind):
+    """One soft phase-start marker (inhale | exhale | hold)."""
+    spec = CUE_SPEC[kind]
+    t = np.arange(int(spec["dur"] * SR)) / SR
+    f = np.linspace(spec["f0"], spec["f1"], len(t))
+    ph = 2 * np.pi * np.cumsum(f) / SR
+    s = np.zeros_like(t)
+    for mult, amp in spec["parts"]:
+        s += amp * np.sin(ph * mult)
+    if kind == "hold":
+        env = np.exp(-t / 0.16)                 # gentle bell-like decay
+        atk = int(0.02 * SR)
+    else:
+        x = np.linspace(0, 1, len(t))           # quick swell in, slow release
+        env = np.where(x < 0.25,
+                       0.5 - 0.5 * np.cos(np.pi * x / 0.25),
+                       0.5 + 0.5 * np.cos(np.pi * (x - 0.25) / 0.75))
+        atk = int(0.05 * SR)
+    s *= env
+    if atk:
+        s[:atk] *= np.linspace(0, 1, atk)
+    s *= spec["gain"] / np.max(np.abs(s))
     return s.astype(np.float32)
 
 # --------------------------------------------------------------------------
@@ -114,21 +141,42 @@ def mix_at(track, snd, at):
 LONG_DUR     = 300
 LONG_ENDCARD = 4
 
+# precompute the three phase markers once
+CUES = {k: cue(k).astype(np.float64) for k in CUE_SPEC}
+
+def phase_starts(flow, until):
+    """(start_time, phase_name) for every phase that begins before `until`."""
+    phases = flow["phases"]
+    events, t, i = [], 0.0, 0
+    while t < until:
+        ph = phases[i % len(phases)]
+        events.append((t, ph["name"]))
+        t += ph["dur"]; i += 1
+    return events
+
 def make_master(flow, dur, endCard, suffix=""):
-    """ambient pad + opening/closing bell, written to tmp/master-<slug><suffix>.wav."""
+    """ambient pad + opening/closing bell + per-phase eyes-closed cues."""
     master = ambient(flow, dur).astype(np.float64)
     mix_at(master, bell(gain=0.5), 0.0)
     mix_at(master, bell(gain=0.5), dur - endCard)
+    # phase-start markers; skip the very first inhale (opening bell marks it)
+    # and stop short of the closing bell to keep the landing clean.
+    end_at = dur - endCard
+    for k, (start, name) in enumerate(phase_starts(flow, end_at)):
+        if k == 0 or start >= end_at - 1.0:
+            continue
+        mix_at(master, CUES[name], start)
     master *= 0.92 / np.max(np.abs(master))
     path = os.path.join(HERE, f"master-{flow['slug']}{suffix}.wav")
     write_wav(path, master)
     print("  ->", os.path.relpath(path, ROOT))
 
 # --------------------------------------------------------------------------
-print("Shared bell + tones...")
+print("Shared bell + phase cues...")
 export_mp3("bell", bell())
-export_mp3("tone-inhale", tone(True))
-export_mp3("tone-exhale", tone(False))
+export_mp3("tone-inhale", cue("inhale"))
+export_mp3("tone-exhale", cue("exhale"))
+export_mp3("tone-hold", cue("hold"))
 
 for fid, flow in FLOWS.items():
     slug = flow["slug"]

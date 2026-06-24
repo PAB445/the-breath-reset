@@ -34,6 +34,7 @@ FLOWS = {
     # ===================================================================
     "coherent": {
         "slug": "coherent",
+        "category": "relax",          # which brand pillar: relax | retrain | release
         "total": 90, "endCard": 3,
         "orbMin": 0.70, "orbMax": 1.00,
         "phases": [
@@ -53,6 +54,7 @@ FLOWS = {
     # ===================================================================
     "extendedExhale": {
         "slug": "extended-exhale",
+        "category": "relax",
         "total": 90, "endCard": 3,
         "orbMin": 0.62, "orbMax": 0.95,
         "settleDown": True,     # mist drifts downward; field quietens on exhale
@@ -73,6 +75,7 @@ FLOWS = {
     # ===================================================================
     "boxBreathing": {
         "slug": "box-breathing",
+        "category": "relax",
         "total": 120, "endCard": 3,
         "orbMin": 0.65, "orbMax": 0.95,
         "box": True,            # draw the rounded-square progress path

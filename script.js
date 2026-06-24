@@ -48,6 +48,27 @@ if ("IntersectionObserver" in window) {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 }
 
+document.querySelectorAll("[data-founder-video]").forEach((stage) => {
+  const videoSource = stage.dataset.videoSrc?.trim();
+
+  if (!videoSource) return;
+
+  const video = document.createElement("video");
+  video.controls = true;
+  video.playsInline = true;
+  video.preload = "metadata";
+  video.poster = stage.dataset.poster || "";
+  video.setAttribute("aria-label", "Founder story film");
+
+  const source = document.createElement("source");
+  source.src = videoSource;
+  source.type = "video/mp4";
+  video.append(source);
+
+  stage.replaceChildren(video);
+  stage.classList.add("has-video");
+});
+
 const bookingForm = document.querySelector("[data-booking-form]");
 
 if (bookingForm) {

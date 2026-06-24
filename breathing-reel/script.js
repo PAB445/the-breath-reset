@@ -340,7 +340,8 @@ const AudioBus = {
 
   onPhase(name) {
     if (!this.enabled) return;
-    const tone = this.el(name === "exhale" ? "toneExhale" : "toneInhale");
+    const id = name === "exhale" ? "toneExhale" : name === "hold" ? "toneHold" : "toneInhale";
+    const tone = this.el(id);
     if (tone) { tone.currentTime = 0; tone.play().catch(() => {}); }
   },
 

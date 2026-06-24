@@ -221,14 +221,41 @@ def wrap_mixed(d, cx, y, raw, size, max_w, line_h):
         yy += line_h
     return yy
 
+# which brand pillar a video belongs to -> highlighted in the brand line
+PILLARS = ["RELAX", "RETRAIN", "RELEASE"]
+CATEGORY_INDEX = {"relax": 0, "retrain": 1, "release": 2}
+PILLAR_DIM = (120, 114, 104)        # the two inactive pillars
+
+def tracked_segments(d, cx, cy, segments, track):
+    """Render coloured segments [(text, font, fill), ...] as one centered, tracked line."""
+    total = -track
+    for text, fnt, _ in segments:
+        total += sum(d.textlength(c, font=fnt) + track for c in text)
+    x = cx - total / 2
+    for text, fnt, fill in segments:
+        for c in text:
+            d.text((x, cy), c, font=fnt, fill=fill); x += d.textlength(c, font=fnt) + track
+
+def brand_pillars(d, cx, cy, category, size, track):
+    """RELAX. RETRAIN. RELEASE. with this video's pillar lit (clay) and the rest dimmed."""
+    active = CATEGORY_INDEX.get(category, 0)
+    on, off = manrope(size, 700), manrope(size, 400)
+    segs = []
+    for i, word in enumerate(PILLARS):
+        if i:
+            segs.append((". ", off, PILLAR_DIM))
+        segs.append((word, on, CLAY) if i == active else (word, off, PILLAR_DIM))
+    segs.append((".", off, PILLAR_DIM))
+    tracked_segments(d, cx, cy, segs, track)
+
 def build_static_text(flow, L):
     img = layer(L); d = ImageDraw.Draw(img); W = L["W"]
     text_center(d, W // 2, L["eyebrow_y"], flow["reel"]["eyebrow"].upper(),
                 manrope(L["eyebrow_size"], 600), OFF, track=L["eyebrow_track"])
     text_center(d, W // 2, L["sub_y"], flow["reel"]["sub"], manrope(L["sub_size"], 400), MUTED)
     text_center(d, W // 2, L["brand_y"], "The Breath Reset", serif(L["brand_size"]), OFF)
-    text_center(d, W // 2, L["brand_sub_y"], "RELAX. RETRAIN. RELEASE.",
-                manrope(L["brand_sub_size"], 400), MUTED, track=L["brand_sub_track"])
+    brand_pillars(d, W // 2, L["brand_sub_y"], flow.get("category", "relax"),
+                  L["brand_sub_size"], L["brand_sub_track"])
     return img
 
 def build_cue(text, L):
@@ -286,6 +313,8 @@ def build_intro(flow, L):
         d.text((W // 2, sy), step, font=manrope(L["intro_steps_size"], 500 if i < n - 1 else 400),
                fill=fill, anchor="ma")
         sy += L["intro_steps_size"] + 24
+    brand_pillars(d, W // 2, L["brand_sub_y"], flow.get("category", "relax"),
+                  L["brand_sub_size"], L["brand_sub_track"])
     return img
 
 # ----------------------------- box path ------------------------------

@@ -119,6 +119,32 @@ def center_tracked(d, cy, text, fnt, fill, track):
 def divider(d, cy, half=70, color=SAGE_DARK):
     d.line([(W / 2 - half, cy), (W / 2 + half, cy)], fill=color, width=2)
 
+# which brand pillar a video belongs to -> highlighted on the cover
+PILLARS = ["RELAX", "RETRAIN", "RELEASE"]
+CATEGORY_INDEX = {"relax": 0, "retrain": 1, "release": 2}
+PILLAR_DIM = (96, 90, 82)        # the two inactive pillars (faint warm grey)
+
+def tracked_segments(d, cy, segments, track):
+    """Render coloured segments [(text, font, fill), ...] as one centered, tracked line."""
+    total = -track
+    for text, fnt, _ in segments:
+        total += sum(d.textlength(c, font=fnt) + track for c in text)
+    x = W / 2 - total / 2
+    for text, fnt, fill in segments:
+        for c in text:
+            d.text((x, cy), c, font=fnt, fill=fill); x += d.textlength(c, font=fnt) + track
+
+def category_pillars(d, cy, category, size=21, track=5):
+    """RELAX · RETRAIN · RELEASE with this video's pillar lit (clay) and the rest dimmed."""
+    active = CATEGORY_INDEX.get(category, 0)
+    on, off = manrope(size, 800), manrope(size, 600)
+    segs = []
+    for i, word in enumerate(PILLARS):
+        if i:
+            segs.append((" · ", off, PILLAR_DIM))
+        segs.append((word, on, CLAY) if i == active else (word, off, PILLAR_DIM))
+    tracked_segments(d, cy, segs, track)
+
 def eyebrow_with_lines(d, cy, text, fnt, fill, track, line=46, gap=22):
     w = tracked_w(d, text, fnt, track)
     ly = cy + fnt.size * 0.42
@@ -205,7 +231,7 @@ def render_cover(flow):
                fill=fill, anchor="ma")
         sy += 60
 
-    center_tracked(d, 1822, "RELAX · RETRAIN · RELEASE", manrope(21, 600), SAGE_DARK, 5)
+    category_pillars(d, 1822, flow.get("category", "relax"))
 
     out_dir = os.path.join(PRACTICES, flow["slug"])
     os.makedirs(out_dir, exist_ok=True)
