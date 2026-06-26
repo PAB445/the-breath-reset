@@ -8,8 +8,9 @@ For each flow (coherent, extendedExhale, boxBreathing):
 
 Shared:
   breathing-reel/audio/bell.mp3              soft bell (start / end)
-  breathing-reel/audio/tone-inhale.mp3       gentle rising swell (optional)
-  breathing-reel/audio/tone-exhale.mp3       gentle falling swell (optional)
+  breathing-reel/audio/tone-inhale.mp3       soft airy inhale cue (optional)
+  breathing-reel/audio/tone-exhale.mp3       soft airy exhale cue (optional)
+  breathing-reel/audio/tone-hold.mp3         quiet hold cue (optional)
 
 Pure synthesis (numpy) — no samples, no paid libs. Re-run after changing flows.
 """
@@ -46,6 +47,13 @@ def lowpass_box(x, k):
     y = (c[k:] - c[:-k]) / k
     return np.concatenate([np.full(k - 1, y[0]), y])[:len(x)]
 
+def band_noise(seed, dur, low_k, high_k):
+    rng = np.random.RandomState(seed)
+    n = rng.randn(int(dur * SR))
+    low = lowpass_box(n, low_k)
+    lower = lowpass_box(n, high_k)
+    return low - lower
+
 def ambient(flow, dur=None):
     if dur is None:
         dur = flow["total"]
@@ -78,39 +86,41 @@ def bell(dur=4.5, base=440.0, gain=0.6):
     s *= gain / np.max(np.abs(s))
     return s.astype(np.float32)
 
-# Soft, eyes-closed phase markers. Pitch DIRECTION is the primary cue
-# (rise = inhale, fall = exhale, steady = hold), reinforced by timbre
-# (inhale brighter, exhale warmer). Kept low so they sit under the pad.
+# Soft, eyes-closed phase markers. These use breath-like air textures instead
+# of obvious synthetic tones, so the cues are felt more than heard.
 CUE_SPEC = {
-    "inhale": dict(dur=0.75, f0=196.0, f1=294.0, gain=0.34,
-                   parts=[(1.0, 1.0), (2.0, 0.42), (3.0, 0.12)]),   # rising, bright
-    "exhale": dict(dur=0.95, f0=294.0, f1=196.0, gain=0.30,
-                   parts=[(1.0, 1.0), (0.5, 0.18), (2.0, 0.12)]),   # falling, warm
-    "hold":   dict(dur=0.55, f0=233.0, f1=233.0, gain=0.26,
-                   parts=[(1.0, 1.0), (2.0, 0.10)]),                # steady, neutral
+    "inhale": dict(dur=1.35, seed=11, gain=0.115),  # upward airy swell
+    "exhale": dict(dur=1.85, seed=17, gain=0.105),  # longer warm release
+    "hold":   dict(dur=0.90, seed=23, gain=0.075),  # very quiet low pulse
 }
 
 def cue(kind):
     """One soft phase-start marker (inhale | exhale | hold)."""
     spec = CUE_SPEC[kind]
     t = np.arange(int(spec["dur"] * SR)) / SR
-    f = np.linspace(spec["f0"], spec["f1"], len(t))
-    ph = 2 * np.pi * np.cumsum(f) / SR
-    s = np.zeros_like(t)
-    for mult, amp in spec["parts"]:
-        s += amp * np.sin(ph * mult)
-    if kind == "hold":
-        env = np.exp(-t / 0.16)                 # gentle bell-like decay
-        atk = int(0.02 * SR)
+    x = np.linspace(0, 1, len(t))
+
+    if kind == "inhale":
+        air = band_noise(spec["seed"], spec["dur"], 34, 950)
+        tone = np.sin(2 * np.pi * (185 + 38 * x) * t) * 0.10
+        env = np.sin(np.pi * x) ** 1.4
+        tilt = 0.58 + 0.42 * x
+        s = (air * 0.72 * tilt + tone) * env
+    elif kind == "exhale":
+        air = band_noise(spec["seed"], spec["dur"], 52, 1300)
+        tone = np.sin(2 * np.pi * (150 - 30 * x) * t) * 0.09
+        env = np.where(x < 0.18,
+                       0.5 - 0.5 * np.cos(np.pi * x / 0.18),
+                       np.exp(-(x - 0.18) / 0.55))
+        tilt = 1.0 - 0.45 * x
+        s = (air * 0.78 * tilt + tone) * env
     else:
-        x = np.linspace(0, 1, len(t))           # quick swell in, slow release
-        env = np.where(x < 0.25,
-                       0.5 - 0.5 * np.cos(np.pi * x / 0.25),
-                       0.5 + 0.5 * np.cos(np.pi * (x - 0.25) / 0.75))
-        atk = int(0.05 * SR)
-    s *= env
-    if atk:
-        s[:atk] *= np.linspace(0, 1, atk)
+        air = band_noise(spec["seed"], spec["dur"], 120, 1800)
+        pulse = np.sin(2 * np.pi * 146.83 * t) * np.exp(-t / 0.28)
+        env = np.exp(-x / 0.42)
+        s = (0.08 * air + 0.18 * pulse) * env
+
+    s = fade(s, 0.02, 0.12)
     s *= spec["gain"] / np.max(np.abs(s))
     return s.astype(np.float32)
 

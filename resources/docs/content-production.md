@@ -167,9 +167,9 @@ python3 tmp/make_audio.py
 
 **Phase cue design** (in `CUE_SPEC` in `make_audio.py`):
 
-- **Inhale** — pitch glides up (196→294 Hz), brighter harmonics
-- **Exhale** — pitch glides down (294→196 Hz), warmer, slightly longer
-- **Hold** — steady mid note, bell-like decay
+- **Inhale** - soft upward air swell with a subtle rising body
+- **Exhale** - longer warm air release with a subtle falling body
+- **Hold** - very quiet low pulse / shimmer
 
 To adjust or remove cues: edit `CUE_SPEC`, `cue()`, and/or the scheduling loop in `make_master()`. Re-run `make_audio.py` then re-render videos.
 
