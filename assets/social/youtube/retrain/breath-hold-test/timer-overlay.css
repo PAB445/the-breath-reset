@@ -1,0 +1,204 @@
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("../../../../../breathing-reel/fonts/InstrumentSerif-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("../../../../../breathing-reel/fonts/InstrumentSerif-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("../../../../../breathing-reel/fonts/Manrope.ttf") format("truetype");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --offwhite: #efe7d9;
+  --muted: rgba(239, 231, 217, 0.64);
+  --sage: #8fa58a;
+  --sage-rgb: 143, 165, 138;
+  --clay: #d19073;
+  --shadow: rgba(10, 8, 7, 0.44);
+  --stage-bg: transparent;
+  --timer-scale: 1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: transparent;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body.is-green {
+  --stage-bg: #00ff00;
+  background: #00ff00;
+}
+
+body.is-black {
+  --stage-bg: #000;
+  background: #000;
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  min-width: 1280px;
+  min-height: 720px;
+  background: var(--stage-bg);
+  color: var(--offwhite);
+  font-family: "Manrope", system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+}
+
+.timer {
+  position: absolute;
+  display: grid;
+  grid-template-columns: minmax(220px, max-content) 140px;
+  align-items: center;
+  gap: 26px;
+  transform: scale(var(--timer-scale));
+  transform-origin: top right;
+  filter: drop-shadow(0 18px 34px var(--shadow));
+}
+
+.timer--top-right {
+  top: max(72px, 7.2vh);
+  right: max(96px, 6vw);
+}
+
+.timer--top-left {
+  top: max(72px, 7.2vh);
+  left: max(96px, 6vw);
+  transform-origin: top left;
+}
+
+.timer--bottom-right {
+  right: max(96px, 6vw);
+  bottom: max(72px, 7.2vh);
+  transform-origin: bottom right;
+}
+
+.timer--bottom-left {
+  left: max(96px, 6vw);
+  bottom: max(72px, 7.2vh);
+  transform-origin: bottom left;
+}
+
+.timer--center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(var(--timer-scale));
+  transform-origin: center;
+}
+
+.timer-copy {
+  text-align: right;
+}
+
+.timer--top-left .timer-copy,
+.timer--bottom-left .timer-copy {
+  text-align: left;
+}
+
+.timer-label {
+  margin: 0 0 10px;
+  color: var(--clay);
+  font-size: 16px;
+  font-weight: 750;
+  letter-spacing: 0.26em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.timer-value {
+  margin: 0;
+  color: var(--offwhite);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 82px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.92;
+}
+
+.timer-note {
+  max-width: 360px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.36;
+}
+
+.timer-ring {
+  width: 140px;
+  height: 140px;
+  overflow: visible;
+}
+
+.ring-track,
+.ring-progress {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 5;
+}
+
+.ring-track {
+  stroke: rgba(239, 231, 217, 0.18);
+}
+
+.ring-progress {
+  stroke: var(--sage);
+  stroke-dasharray: 364.42;
+  stroke-dashoffset: 364.42;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset 120ms linear;
+}
+
+@media (max-width: 900px), (max-height: 620px) {
+  .stage {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .timer {
+    grid-template-columns: minmax(160px, max-content) 108px;
+    gap: 18px;
+  }
+
+  .timer-value {
+    font-size: 62px;
+  }
+
+  .timer-note {
+    max-width: 280px;
+    font-size: 14px;
+  }
+
+  .timer-ring {
+    width: 108px;
+    height: 108px;
+  }
+}

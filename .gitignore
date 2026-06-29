@@ -17,9 +17,17 @@ tmp/reel_test_*.mp4
 
 # Long-form YouTube exports (~5 min, 16:9) — upload to YouTube separately
 assets/social/youtube/long/
+assets/social/youtube/relax/long/
 
 # YouTube Shorts — copies of the Instagram reels; regenerate via render_reel.py
 assets/social/youtube/shorts/
+assets/social/youtube/relax/shorts/
+
+# Retrain YouTube working/final exports not embedded on the website
+assets/social/youtube/retrain/breath-hold-test/*.mp4
+
+# Founder source exports; keep the site-ready MP4 tracked instead
+assets/social/youtube/founder-video/*.mov
 
 # End cards (baked into videos; cover.png is the site poster)
 assets/social/instagram/practices/*/end.png

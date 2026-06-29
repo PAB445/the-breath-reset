@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>The Breath Reset — CO2 tolerance timer overlay</title>
+  <link rel="stylesheet" href="timer-overlay.css" />
+</head>
+<body>
+  <main class="stage" id="stage" aria-label="Breath hold timer overlay">
+    <section class="timer timer--top-right" id="timerPanel" aria-live="off">
+      <div class="timer-copy">
+        <p class="timer-label">Hold time</p>
+        <p class="timer-value" id="timerValue">00:00</p>
+        <p class="timer-note" id="timerNote">Stop at the first clear urge to breathe</p>
+      </div>
+      <svg class="timer-ring" viewBox="0 0 140 140" aria-hidden="true">
+        <circle class="ring-track" cx="70" cy="70" r="58"></circle>
+        <circle class="ring-progress" id="ringProgress" cx="70" cy="70" r="58"></circle>
+      </svg>
+    </section>
+  </main>
+
+  <script src="timer-overlay.js"></script>
+</body>
+</html>
