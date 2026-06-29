@@ -13,7 +13,8 @@ tmp/reel_test_*.mp4
 
 # Social-only assets (not referenced by the website)
 # Website uses: assets/social/instagram/practices/<slug>/reel.mp4 + cover.png
-#              assets/social/youtube/founder-video/*.png
+#              assets/social/youtube/founder-video/founder-story.mp4 + cover/end PNGs
+#              assets/social/youtube/retrain/breath-hold-test/Retrain_BreathHoldTest_Final.mp4 + cover/end PNGs
 
 # Long-form YouTube exports (~5 min, 16:9) — upload to YouTube separately
 assets/social/youtube/long/
@@ -25,6 +26,7 @@ assets/social/youtube/relax/shorts/
 
 # Retrain YouTube working/final exports not embedded on the website
 assets/social/youtube/retrain/breath-hold-test/*.mp4
+!assets/social/youtube/retrain/breath-hold-test/Retrain_BreathHoldTest_Final.mp4
 
 # Founder source exports; keep the site-ready MP4 tracked instead
 assets/social/youtube/founder-video/*.mov
