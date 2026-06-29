@@ -2068,8 +2068,45 @@ details p {
   letter-spacing: 0.08em;
 }
 
+.hero-practice {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
 .video-hero-reel {
   box-shadow: 0 34px 76px -42px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.hero-practice-caption {
+  width: min(332px, 100%);
+  color: rgba(255, 253, 248, 0.72);
+  text-align: center;
+}
+
+.hero-practice-caption span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--clay);
+  font-size: 0.68rem;
+  font-weight: 760;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.hero-practice-caption strong {
+  display: block;
+  color: var(--warm-white);
+  font-family: var(--display-font);
+  font-size: 1.45rem;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.hero-practice-caption p {
+  margin: 6px 0 0;
+  font-size: 0.9rem;
 }
 
 .featured-video {
@@ -2810,7 +2847,7 @@ textarea {
 	  }
 
 	  .video-hero-reel {
-	    max-width: min(312px, 78vw);
+	    max-width: min(260px, 70vw);
 	  }
 
 	  .video-hero {
