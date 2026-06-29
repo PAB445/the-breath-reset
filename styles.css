@@ -2813,6 +2813,10 @@ textarea {
 	    max-width: min(312px, 78vw);
 	  }
 
+	  .video-hero {
+	    padding-bottom: 64px;
+	  }
+
 	  .relax-start {
 	    padding-top: 24px;
 	  }
