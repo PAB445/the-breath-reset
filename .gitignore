@@ -10,10 +10,19 @@ tmp/*.wav
 tmp/test_*.mp4
 tmp/frame_*.png
 tmp/reel_test_*.mp4
+tmp/story-frames/
+tmp/event-ad-frames/
+tmp/*.png
+
+# Local tool caches / virtualenvs (never commit)
+.venv/
+tmp/.venv*/
+tmp/.hf/
+**/__pycache__/
 
 # Social-only assets (not referenced by the website)
 # Website uses: assets/social/instagram/practices/<slug>/reel.mp4 + cover.png
-#              assets/social/youtube/founder-video/founder-story.mp4 + cover/end PNGs
+#              assets/social/youtube/founder-video/founder-story-v2-web.mp4 + cover-web.jpg
 #              assets/social/youtube/retrain/breath-hold-test/Retrain_BreathHoldTest_Final.mp4 + cover/end PNGs
 
 # Long-form YouTube exports (~5 min, 16:9) — upload to YouTube separately
@@ -28,11 +37,23 @@ assets/social/youtube/relax/shorts/
 assets/social/youtube/retrain/breath-hold-test/*.mp4
 !assets/social/youtube/retrain/breath-hold-test/Retrain_BreathHoldTest_Final.mp4
 
-# Founder source exports; keep the site-ready MP4 tracked instead
+# Founder source / working exports; keep only the site-ready web MP4 + cover
 assets/social/youtube/founder-video/*.mov
+assets/social/youtube/founder-video/founder-story-v2.mp4
+assets/social/youtube/founder-video/founder-story-v2-final.mp4
+assets/social/youtube/founder-video/end.png
+assets/social/youtube/founder-video/overlays/
+resources/founder-video-v2.mp4
 
-# End cards (baked into videos; cover.png is the site poster)
+# Instagram event creatives (ads / stories / posts — not embedded on the site)
+assets/social/instagram/events/
+
+# Practice working exports beyond the site reel + cover
 assets/social/instagram/practices/*/end.png
+assets/social/instagram/practices/*/reel_final.mp4
+assets/social/instagram/practices/*/story_intro.mp4
+assets/social/instagram/practices/*/breathing_sounds.m4a
+assets/social/instagram/practices/*/story/
 
 # Static PNG decks for manual CapCut / Instagram assembly
 assets/social/instagram/reel-frames/

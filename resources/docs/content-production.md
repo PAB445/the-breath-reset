@@ -74,7 +74,7 @@ the-breath-reset/
 │       ├── shorts/<slug>/        # Copy of reel.mp4 + cover.png
 │       ├── long/<slug>/          # 16:9 ~5 min videos
 │       │   └── youtube.mp4
-│       └── founder-video/        # Static 16:9 cover + end-screen PNGs
+│       └── founder-video/        # Vertical founder story (source + renders)
 │
 ├── videos.html                   # Website page embedding the 9:16 reels
 └── resources/docs/               # This guide + design guide PDF
@@ -341,20 +341,110 @@ Edit frame copy in the `DECKS` / `singles()` sections at the bottom of `make_ree
 python3 tmp/make_post.py
 ```
 
-**Output:** `assets/social/instagram/carousels/nervous-system/frame-01..12.png` (1080×1350, **4:5**)
+**Output:** `assets/social/instagram/carousels/nervous-system/frame-01..10.png` (1080×1350, **4:5**)
 
-Orb **state** changes per frame (tense → wired → freeze → coherent → final). Edit `FRAMES` in the script.
+The thread is the **window of tolerance**: two faint lines mark the window, a
+state trace runs across it, and the orb rides the trace — braced orb → state
+trace → trace inside the window → spikes above (warm) → sinks below (cool, flat)
+→ wider window → two traces converging back in → attention rings → type-only end
+card. Edit the frame copy at the bottom of the script.
 
-### YouTube founder video assets (light palette, 16:9)
-
-Separate design language from breath videos (cream/charcoal, not dark sage):
+### Carousel — `tmp/make_post_breathwork.py`
 
 ```bash
-python3 tmp/make_cover.py       # → assets/social/youtube/founder-video/cover.png
-python3 tmp/make_endscreen.py   # → assets/social/youtube/founder-video/end-screen.png
+python3 tmp/make_post_breathwork.py
 ```
 
-1280×720 supersampled at 2×. No MP4 render script for founder video in repo.
+**Output:** `assets/social/instagram/carousels/what-is-breathwork/frame-01..10.png` (1080×1350, **4:5**)
+
+"What actually is breathwork?" — same palette and orb as the nervous-system
+deck, but the thread is **rhythm**: each frame draws a breath wave whose speed,
+depth and inhale/exhale ratio match its copy (one orb with count ticks → fast vs
+slow pair → circulation ring → five rhythms → long exhale → light even wave →
+unbroken fast wave → three pathway signatures → type-only end card). Edit the
+`frames.append(...)` blocks; art lives in the `artN()` function above each.
+
+### YouTube founder video — retired v1 (16:9)
+
+The cream 16:9 cover/end-screen (`tmp/make_cover.py`, `tmp/make_endscreen.py`) and
+`founder-story.mp4` / `FounderVideoFinal.mov` exports have been removed from
+`founder-video/`. Use the vertical pipeline below.
+
+---
+
+## Founder video (vertical, warm-black palette)
+
+The v2 founder video drops the cream 16:9 system and joins the warm-black
+palette used by the practice cards and Instagram posts. It is a full MP4 render,
+not just static cards.
+
+```bash
+python3 tmp/make_founder_cards_v2.py   # cover.png + end.png (1080×1920)
+python3 tmp/render_founder_v2.py       # → master + web derivative + poster
+```
+
+| Env var | Effect |
+|---------|--------|
+| `FOUNDER_STILLS=1` | One still per cue to `tmp/founder-v2-frames/` (~25s, no encode) |
+| `FOUNDER_WEB_ONLY=1` | Re-encode just the web derivative + poster from the master |
+
+**Outputs** → `assets/social/youtube/founder-video/`
+
+| File | Purpose |
+|------|---------|
+| `cover.png` | Thumbnail — a graded still from the video, not a designed graphic |
+| `cover-web.jpg` | Light poster for the website embed (~0.1 MB) |
+| `end.png` | End card, type only (no lung mark) |
+| `overlays/*.png` | The three transparent text overlays, for retiming without a re-render |
+| `founder-story-v2-final.mp4` | Master, 1080×1920, 68.2s (~85 MB) |
+| `founder-story-v2-web.mp4` | Website derivative, 720×1280 (~9 MB) |
+
+The homepage embed in `index.html` points at the **web** derivative, not the
+master. The master is far too heavy to serve.
+
+### Design constraints baked into the scripts
+
+- **Source** is `founder-video/founder-story-v2.mp4` — 1080×1920, 30fps,
+  `66.62s`, with a 2.47s black tail from `64.07s` carrying a quiet music bed.
+  That tail is too short to read a three-line end card, so the renderer holds
+  the final black frame for another `1.60s` (`TAIL_EXTEND`) and fades the music
+  out under it. Final duration is `68.22s`. Set `TAIL_EXTEND = 0` to end exactly
+  where the source does.
+- **Captions are already burned into the footage** at rows `1153`–`1250`, and
+  they disappear during speech pauses. Pull-quotes therefore sit *above head
+  height* (head top is ~y `437`) and reach full opacity only once their caption
+  has cleared. Measured caption-free windows: `40.25`–`41.45s` and
+  `48.25`–`49.25s`.
+- **Quote copy must not restate its own caption.** The first quote reads "My
+  mind understood. / My body didn't." rather than "...my body was still on
+  edge", because the caption underneath already says "my body still felt like it
+  was constantly on edge".
+- **No burned-in cover card and no opening logo.** The video starts on Suraj;
+  `cover.png` ships as a separate thumbnail.
+- Text is kept inside `y 240`–`1450` for Instagram UI, and cover elements inside
+  `y 285`–`1635` so they survive the 4:5 profile-grid crop.
+
+### Re-cutting the source
+
+Every cue timing is content-dependent. After a re-cut, re-measure the pause map
+and re-locate the two quote moments before re-rendering — see the header comment
+in `render_founder_v2.py` for the caption-bitmap matching method that identifies
+which pause is which.
+
+### Retiming
+
+Cue timings live in `build_cues()` in `render_founder_v2.py` as
+`(start, fade_in, fade_out_start, end)`. To check placement without a
+three-minute encode:
+
+```bash
+FOUNDER_STILLS=1 python3 tmp/render_founder_v2.py
+```
+
+That writes one still per cue at its hold point to `tmp/founder-v2-frames/`.
+
+**Video specs:** 1080×1920, 30fps, H.264, CRF 18, AAC 192k, `+faststart`.
+Full render is ~3 min.
 
 ---
 
@@ -458,8 +548,12 @@ python3 tmp/render_reel.py
 # Static social PNGs
 python3 tmp/make_reels.py      # text reels + posts
 python3 tmp/make_post.py       # 4:5 carousel
-python3 tmp/make_cover.py      # YouTube founder cover
-python3 tmp/make_endscreen.py  # YouTube founder end screen
+python3 tmp/make_cover.py      # YouTube founder cover (v1, needs logo.png)
+python3 tmp/make_endscreen.py  # YouTube founder end screen (v1, needs logo.png)
+
+# Founder video v2 (vertical)
+python3 tmp/make_founder_cards_v2.py
+python3 tmp/render_founder_v2.py
 
 # Web preview
 cd breathing-reel && ./serve.sh 8080
@@ -477,8 +571,10 @@ cd breathing-reel && ./serve.sh 8080
 | `render_reel.py` | `flows.py` + master WAV | `reel.mp4`, `youtube.mp4`, Shorts copy |
 | `make_reels.py` | Deck data in script | Text-reel frames + posts |
 | `make_post.py` | Frame data in script | Carousel PNGs |
-| `make_cover.py` | — | Founder YouTube cover |
-| `make_endscreen.py` | — | Founder YouTube end screen |
+| `make_cover.py` | — | Founder YouTube cover (v1) |
+| `make_endscreen.py` | — | Founder YouTube end screen (v1) |
+| `make_founder_cards_v2.py` | `founder-story-v2.mp4` | Founder v2 cover + end card (9:16) |
+| `render_founder_v2.py` | `founder-story-v2.mp4` + `end.png` | Founder v2 final MP4 |
 
 ---
 

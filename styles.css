@@ -1268,33 +1268,17 @@ body:not(.home) .button.secondary {
 
 .founder-film-media {
   position: relative;
-  margin: 0;
-  padding: clamp(20px, 3vw, 36px) clamp(10px, 2vw, 26px) 0 0;
-}
-
-.founder-film-echo {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 78%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  opacity: 0.46;
-  transform: translate(8%, -12%) rotate(3deg);
-  filter: saturate(0.62) contrast(0.9);
-}
-
-.founder-film-echo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  outline: 1px solid rgba(255, 255, 255, 0.1);
+  width: min(100%, 392px);
+  margin: 0 auto;
+  padding: clamp(26px, 4vw, 48px) 0 0;
 }
 
 .founder-film-screen {
   position: relative;
   z-index: 1;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 9 / 16;
+  width: min(100%, 392px);
+  margin-inline: auto;
   overflow: hidden;
   background: #1b211c;
   box-shadow: 0 2px 0 rgba(255, 255, 255, 0.05), 0 26px 60px -28px rgba(0, 0, 0, 0.82);
@@ -1322,7 +1306,9 @@ body:not(.home) .button.secondary {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(20, 27, 22, 0.24), transparent 56%), linear-gradient(0deg, rgba(12, 16, 13, 0.48), transparent 52%);
+  /* The v2 poster carries its own grade and bottom scrim, so this only needs
+     enough of a wash to seat the status label. */
+  background: linear-gradient(0deg, rgba(12, 16, 13, 0.38), transparent 22%);
   pointer-events: none;
 }
 
@@ -1371,7 +1357,7 @@ body:not(.home) .button.secondary {
 
 .founder-film-media figcaption {
   max-width: 38ch;
-  margin: 18px 0 0 clamp(10px, 2vw, 26px);
+  margin: 18px 0 0;
   color: rgba(255, 253, 248, 0.58);
   font-size: 0.84rem;
   line-height: 1.5;
@@ -1389,7 +1375,7 @@ body:not(.home) .button.secondary {
   }
 
   .founder-film-media {
-    width: min(100%, 720px);
+    width: min(100%, 392px);
   }
 }
 
@@ -1399,16 +1385,7 @@ body:not(.home) .button.secondary {
   }
 
   .founder-film-media {
-    padding: 16px 0 0;
-  }
-
-  .founder-film-echo {
-    width: 84%;
-    transform: translate(2%, -9%) rotate(2deg);
-  }
-
-  .founder-film-media figcaption {
-    margin-left: 0;
+    padding: 22px 0 0;
   }
 }
 

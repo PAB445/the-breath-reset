@@ -54,12 +54,15 @@ def band_noise(seed, dur, low_k, high_k):
     lower = lowpass_box(n, high_k)
     return low - lower
 
-def ambient(flow, dur=None):
+def ambient(flow, dur=None, lead=0.0, fin=4.0, fout=4.0):
+    """`lead` seconds of pre-roll are prepended (time runs from -lead), so the
+    pad can start under whatever comes before the session."""
     if dur is None:
         dur = flow["total"]
-    t = np.arange(int(dur * SR)) / SR
+    t = np.arange(int((dur + lead) * SR)) / SR - lead
+    dur += lead
     # sample the breath envelope coarsely then upsample (orb_scale per-sample is slow)
-    tc = np.linspace(0, dur, int(dur * 50))
+    tc = np.linspace(-lead, dur - lead, int(dur * 50))
     bc = breath_env(flow, tc)
     b = np.interp(t, tc, bc)
     sig = np.zeros_like(t)
@@ -70,7 +73,7 @@ def ambient(flow, dur=None):
     sig *= (0.80 + 0.20 * b)
     air = lowpass_box(np.random.RandomState(3).randn(len(t)), 60)
     sig += 0.12 * air * (0.6 + 0.4 * b)
-    sig = fade(sig, 4.0, 4.0)
+    sig = fade(sig, fin, fout)
     sig *= 0.30 / np.max(np.abs(sig))
     return sig.astype(np.float32)
 
@@ -154,6 +157,63 @@ LONG_ENDCARD = 4
 # precompute the three phase markers once
 CUES = {k: cue(k).astype(np.float64) for k in CUE_SPEC}
 
+# flows that use a real recorded breath instead of the synthetic cues
+BREATH_SRC = {
+    "coherent": dict(
+        file="assets/social/instagram/practices/coherent/breathing_sounds.m4a",
+        # (start, end) of each take inside the recording, seconds
+        takes={"inhale": (0.10, 3.00), "exhale": (4.20, 8.00)},
+        # stretched take length as a fraction of its phase
+        fill={"inhale": 0.86, "exhale": 0.92},
+        # fade in / fade out (s) after stretching; inhale swells, exhale releases
+        shape={"inhale": (0.9, 0.9), "exhale": (0.25, 1.3)},
+        offset=0.15,   # s after phase start, so the breath follows the on-screen cue
+        level=0.05,    # breath RMS relative to the pad RMS
+    ),
+    # same recording; the exhale stops short of 6s and tails off, because
+    # atempo past ~0.75x starts to smear the breath
+    "extended-exhale": dict(
+        file="assets/social/instagram/practices/coherent/breathing_sounds.m4a",
+        takes={"inhale": (0.10, 3.00), "exhale": (4.20, 8.00)},
+        fill={"inhale": 0.86, "exhale": 0.82},
+        shape={"inhale": (0.9, 0.9), "exhale": (0.25, 1.9)},
+        offset=0.15,
+        level=0.0274,
+    ),
+}
+
+# bedtime flows: no bells, a long dissolve at the end, and `lead` seconds of
+# pad written to master-<slug>-lead.wav to play under the end of the cover
+BEDTIME = {
+    "extended-exhale": dict(lead=1.0, fin=3.0, fout=7.0),
+}
+
+BREATH_FX = ",".join([
+    "highpass=f=90",
+    "afftdn=nf=-70:nr=10",
+    "equalizer=f=250:t=q:w=1:g=2",            # a little body
+    "highshelf=f=6500:g=-5",                  # soften the phone-mic hiss
+    "aecho=0.85:0.55:45|95|160:0.22|0.14|0.08",  # small, soft room
+])
+
+def breath_take(src, name, phase_dur):
+    """One cleaned, time-stretched, shaped breath (float64 mono)."""
+    a, b = src["takes"][name]
+    target = phase_dur * src["fill"][name]
+    tempo = max(0.5, min(2.0, (b - a) / target))
+    raw = subprocess.run(
+        [FF, "-loglevel", "error", "-ss", str(a), "-to", str(b),
+         "-i", os.path.join(ROOT, src["file"]),
+         "-af", f"{BREATH_FX},atempo={tempo:.4f}",
+         "-f", "s16le", "-ac", "1", "-ar", str(SR), "-"],
+        capture_output=True, check=True).stdout
+    s = np.frombuffer(raw, np.int16).astype(np.float64) / 32768
+    s = fade(s, *src["shape"][name])
+    return s / np.max(np.abs(s))
+
+def rms(x):
+    return np.sqrt(np.mean(x ** 2))
+
 def phase_starts(flow, until):
     """(start_time, phase_name) for every phase that begins before `until`."""
     phases = flow["phases"]
@@ -166,20 +226,47 @@ def phase_starts(flow, until):
 
 def make_master(flow, dur, endCard, suffix=""):
     """ambient pad + opening/closing bell + per-phase eyes-closed cues."""
-    master = ambient(flow, dur).astype(np.float64)
-    mix_at(master, bell(gain=0.5), 0.0)
-    mix_at(master, bell(gain=0.5), dur - endCard)
+    bed = BEDTIME.get(flow["slug"])
+    lead = None
+    if bed:
+        pre = bed["lead"] if not suffix else 0.0
+        master = ambient(flow, dur, pre, bed["fin"], bed["fout"]).astype(np.float64)
+        n = int(pre * SR)
+        lead, master = master[:n], master[n:]
+    else:
+        master = ambient(flow, dur).astype(np.float64)
+        mix_at(master, bell(gain=0.5), 0.0)
+        mix_at(master, bell(gain=0.5), dur - endCard)
     # phase-start markers; skip the very first inhale (opening bell marks it)
     # and stop short of the closing bell to keep the landing clean.
     end_at = dur - endCard
+    src = BREATH_SRC.get(flow["slug"])
+    if src:
+        durs = {p["name"]: p["dur"] for p in flow["phases"]}
+        takes = {n: breath_take(src, n, durs[n]) for n in src["takes"]}
+        pad = rms(master)
+        for n, s in takes.items():
+            s *= src["level"] * pad / rms(s[np.abs(s) > 0.05])
+        for start, name in phase_starts(flow, end_at):
+            if start < end_at - 1.0:
+                mix_at(master, takes[name], start + src["offset"])
+        return finish_master(master, flow, suffix, lead)
     for k, (start, name) in enumerate(phase_starts(flow, end_at)):
         if k == 0 or start >= end_at - 1.0:
             continue
         mix_at(master, CUES[name], start)
-    master *= 0.92 / np.max(np.abs(master))
+    finish_master(master, flow, suffix, lead)
+
+def finish_master(master, flow, suffix, lead=None):
+    gain = 0.92 / np.max(np.abs(master))
+    master *= gain
     path = os.path.join(HERE, f"master-{flow['slug']}{suffix}.wav")
     write_wav(path, master)
     print("  ->", os.path.relpath(path, ROOT))
+    if lead is not None and len(lead):
+        path = os.path.join(HERE, f"master-{flow['slug']}-lead.wav")
+        write_wav(path, lead * gain)
+        print("  ->", os.path.relpath(path, ROOT))
 
 # --------------------------------------------------------------------------
 print("Shared bell + phase cues...")
