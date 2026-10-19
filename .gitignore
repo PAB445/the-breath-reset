@@ -21,9 +21,9 @@ tmp/.hf/
 **/__pycache__/
 
 # Social-only assets (not referenced by the website)
-# Website uses: assets/social/instagram/practices/<slug>/reel.mp4 + cover.png
+# Website uses: assets/social/instagram/practices/{coherent,extended-exhale}/reel-web.mp4 + poster-web.jpg
 #              assets/social/youtube/founder-video/founder-story-v2-web.mp4 + cover-web.jpg
-#              assets/social/youtube/retrain/breath-hold-test/Retrain_BreathHoldTest_Final.mp4 + cover/end PNGs
+#              assets/photos/*, assets/events/*, assets/brand/logo.svg + favicon.svg
 
 # Long-form YouTube exports (~5 min, 16:9) — upload to YouTube separately
 assets/social/youtube/long/
