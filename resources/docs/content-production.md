@@ -448,6 +448,53 @@ Full render is ~3 min.
 
 ---
 
+## Quiet breathing (Retrain talking-head, vertical)
+
+Educational talking-head in the founder-video style, with science annotations,
+subtitles, a synthesised music bed and the type-only end card.
+
+```bash
+HF_HOME=tmp/.hf tmp/.venv-asr/bin/python tmp/transcribe_quiet_breathing.py  # word stamps (only after a re-cut)
+python3 tmp/make_quiet_breathing_audio.py    # music bed + voice/music mix
+python3 tmp/render_quiet_breathing.py        # → quiet-breathing-final.mp4
+```
+
+| Env var | Effect |
+|---------|--------|
+| `QB_STILLS=1` | Check stills at the default cue times to `tmp/quiet-breathing-frames/` |
+| `QB_STILLS=14.9,41.5` | Stills at specific times |
+| `QB_PREVIEW=1` | Fast 540×960 proof render (`*-preview.mp4`) |
+
+**Folder:** `assets/social/youtube/retrain/quiet-breathing/`
+
+| File | Purpose |
+|------|---------|
+| `quiet-breathing-source.mp4` | Raw recording, 1620×1080 (gitignored) |
+| `quiet-breathing-final.mp4` | Master, 1080×1920, 123s |
+
+### Design constraints baked into the scripts
+
+- **Source is landscape 3:2**, reframed to 9:16 with a fixed full-height crop
+  centred on the face (x ≈ 760; he barely moves) and upscaled.
+- **Layout bands:** face y ~260–1010 is never covered; annotations sit on the
+  upper chest (y ~1150–1400); subtitles at y ~1420–1530; everything inside
+  x 90–950 to clear the Reels action column.
+- **Colour code:** O₂ = sage, CO₂ = clay (both lifted slightly so they hold up
+  over the olive shirt). Hero lines use Instrument Serif with a sage italic
+  turn; labels are tracked Manrope caps.
+- **Instrument Serif has no ₂, ≠ or arrow glyphs** — they're drawn in `rich()`.
+  Manrope has them, so labels type them directly.
+- **Subtitles follow what was said**, not the script, and are hidden while a
+  hero line or word overlay says the same words.
+- **Music:** pulse enters after the demo breath, percussion after the first
+  idea; both drop out for the guided breath (93–109s). Voice → −16 LUFS, bed
+  ≈ −31 LUFS, using measured linear gain (dynamic loudnorm would lift the room
+  tone in every pause).
+- Every cue time comes from `tmp/quiet-breathing-words.json`. After a re-cut,
+  re-transcribe and re-time `SUBS` and the `@overlay` windows.
+
+---
+
 ## Website integration
 
 **`videos.html`** embeds the 9:16 practice reels:
@@ -575,6 +622,9 @@ cd breathing-reel && ./serve.sh 8080
 | `make_endscreen.py` | — | Founder YouTube end screen (v1) |
 | `make_founder_cards_v2.py` | `founder-story-v2.mp4` | Founder v2 cover + end card (9:16) |
 | `render_founder_v2.py` | `founder-story-v2.mp4` + `end.png` | Founder v2 final MP4 |
+| `transcribe_quiet_breathing.py` | `quiet-breathing-source.mp4` | `tmp/quiet-breathing-words.json` |
+| `make_quiet_breathing_audio.py` | source audio | `tmp/quiet-breathing-music.wav`, `tmp/quiet-breathing-mix.wav` |
+| `render_quiet_breathing.py` | source + mix WAV | `quiet-breathing-final.mp4` |
 
 ---
 

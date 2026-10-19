@@ -37,6 +37,12 @@ assets/social/youtube/relax/shorts/
 assets/social/youtube/retrain/breath-hold-test/*.mp4
 !assets/social/youtube/retrain/breath-hold-test/Retrain_BreathHoldTest_Final.mp4
 
+# Quiet breathing (Retrain) source + previews; regenerate the final via
+# tmp/render_quiet_breathing.py
+assets/social/youtube/retrain/quiet-breathing/*.mp4
+tmp/quiet-breathing-frames/
+tmp/quiet-frames/
+
 # Founder source / working exports; keep only the site-ready web MP4 + cover
 assets/social/youtube/founder-video/*.mov
 assets/social/youtube/founder-video/founder-story-v2.mp4
