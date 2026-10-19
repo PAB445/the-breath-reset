@@ -14,9 +14,15 @@ The bed is arranged against the speech: the pulse enters after the opening
 demo breath, percussion after the first idea lands, and both drop out for the
 guided breath (93-109s) so that moment feels open. No crescendo anywhere.
 
-Loudness: voice -> -16 LUFS integrated, music bed -> ~-31 LUFS (15 dB under).
+Loudness: voice -> -16 LUFS integrated, music bed -> ~-27 LUFS (11 dB under).
 Both gains use measured loudness and a linear volume, never dynamic loudnorm,
 which would lift the room tone in every pause.
+
+The source is outdoors with bamboo rustle. Wind is cut on the voice chain
+(high-pass, a 180 Hz dip, FFT denoise, a light gate) rather than by turning
+the music up -- louder music only masks pauses, it doesn't remove wind under
+speech. The bed is still a step louder than the first mix so residual rustle
+in the gaps sits under the pad.
 """
 import os
 import re
@@ -37,7 +43,7 @@ SR = 44100
 DUR = 123.0
 
 VOICE_LUFS = -16.0
-MUSIC_LUFS = -31.0
+MUSIC_LUFS = -27.0
 
 BPM = 72.0
 BEAT = 60.0 / BPM
@@ -204,8 +210,17 @@ def write_wav(path, x):
 
 
 # --------------------------------------------------------------------- mix
-VOICE_CHAIN = ("highpass=f=75,afftdn=nr=8:nf=-50,"
-               "acompressor=threshold=-26dB:ratio=2.2:attack=10:release=220")
+# Wind lives in the rumble (~80-250 Hz) and the leaf hiss. The high-pass and
+# 180 Hz dip take the rumble without thinning the voice; afftdn takes the
+# broadband rustle; the gate ducks what's left in the pauses so the compressor
+# can't lift it back up. range=-12 dB so the gaps stay alive, not cut dead.
+VOICE_CHAIN = (
+    "highpass=f=110,"
+    "equalizer=f=180:t=q:w=1.1:g=-4,"
+    "afftdn=nr=14:nf=-44,"
+    "agate=threshold=-42dB:ratio=3:attack=8:release=280:range=-12dB,"
+    "acompressor=threshold=-24dB:ratio=1.8:attack=12:release=220"
+)
 
 
 def integrated_lufs(args, chain):

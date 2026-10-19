@@ -455,6 +455,7 @@ subtitles, a synthesised music bed and the type-only end card.
 
 ```bash
 HF_HOME=tmp/.hf tmp/.venv-asr/bin/python tmp/transcribe_quiet_breathing.py  # word stamps (only after a re-cut)
+python3 tmp/make_quiet_breathing_cover.py    # Instagram cover.png
 python3 tmp/make_quiet_breathing_audio.py    # music bed + voice/music mix
 python3 tmp/render_quiet_breathing.py        # → quiet-breathing-final.mp4
 ```
@@ -470,7 +471,8 @@ python3 tmp/render_quiet_breathing.py        # → quiet-breathing-final.mp4
 | File | Purpose |
 |------|---------|
 | `quiet-breathing-source.mp4` | Raw recording, 1620×1080 (gitignored) |
-| `quiet-breathing-final.mp4` | Master, 1080×1920, 123s |
+| `quiet-breathing-final.mp4` | Master, 1080×1920, 123s (gitignored) |
+| `cover.png` | Instagram thumbnail — graded still, type in the 4:5 grid |
 
 ### Design constraints baked into the scripts
 
@@ -488,7 +490,7 @@ python3 tmp/render_quiet_breathing.py        # → quiet-breathing-final.mp4
   hero line or word overlay says the same words.
 - **Music:** pulse enters after the demo breath, percussion after the first
   idea; both drop out for the guided breath (93–109s). Voice → −16 LUFS, bed
-  ≈ −31 LUFS, using measured linear gain (dynamic loudnorm would lift the room
+  ≈ −27 LUFS, using measured linear gain (dynamic loudnorm would lift the room
   tone in every pause).
 - Every cue time comes from `tmp/quiet-breathing-words.json`. After a re-cut,
   re-transcribe and re-time `SUBS` and the `@overlay` windows.
@@ -623,6 +625,7 @@ cd breathing-reel && ./serve.sh 8080
 | `make_founder_cards_v2.py` | `founder-story-v2.mp4` | Founder v2 cover + end card (9:16) |
 | `render_founder_v2.py` | `founder-story-v2.mp4` + `end.png` | Founder v2 final MP4 |
 | `transcribe_quiet_breathing.py` | `quiet-breathing-source.mp4` | `tmp/quiet-breathing-words.json` |
+| `make_quiet_breathing_cover.py` | source still at 100.15s | `quiet-breathing/cover.png` |
 | `make_quiet_breathing_audio.py` | source audio | `tmp/quiet-breathing-music.wav`, `tmp/quiet-breathing-mix.wav` |
 | `render_quiet_breathing.py` | source + mix WAV | `quiet-breathing-final.mp4` |
 

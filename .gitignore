@@ -23,7 +23,7 @@ tmp/.hf/
 # Social-only assets (not referenced by the website)
 # Website uses: assets/social/instagram/practices/{coherent,extended-exhale}/reel-web.mp4 + poster-web.jpg
 #              assets/social/youtube/founder-video/founder-story-v2-web.mp4 + cover-web.jpg
-#              assets/photos/*, assets/events/*, assets/brand/logo.svg + favicon.svg
+#              assets/photos/*, assets/events/*, assets/brand/logo.png + favicon.png
 
 # Long-form YouTube exports (~5 min, 16:9) — upload to YouTube separately
 assets/social/youtube/long/
