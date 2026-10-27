@@ -43,7 +43,7 @@ const FLOWS = {
       { name: "exhale", label: "Breathe out", dur: 5, dots: 5, orb: [1.00, 0.70] },
     ],
     reel: { eyebrow: "For when your body feels switched on",
-            sub: "A 90-second coherent breath reset" },
+            sub: "A coherent breath reset" },
     end: { lines: ["Take one normal breath.", "Notice what feels different."],
            tagline: "Relax. Retrain. Release.",
            cta: "Save this for when you need to come back to yourself." },
