@@ -636,9 +636,14 @@ p {
   aspect-ratio: 4 / 5;
   object-fit: cover;
   object-position: 50% 50%;
+  --fade: radial-gradient(ellipse 50% 50% at 50% 50%, #000 42%, rgba(0, 0, 0, 0.6) 68%, transparent 100%);
+  -webkit-mask-image: var(--fade);
+  mask-image: var(--fade);
 }
 
 .hero-figure figcaption {
+  margin-top: -36px;
+  text-align: center;
   font-size: 0.8rem;
   color: var(--mist);
 }

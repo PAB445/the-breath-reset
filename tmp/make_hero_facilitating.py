@@ -2,7 +2,7 @@
 """Crop + grade the Inner Exhale guiding photo for the site hero."""
 import os
 import numpy as np
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageFilter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "assets", "events", "inner-exhale", "inner-exhale-guiding.jpg")
@@ -29,18 +29,32 @@ a[..., 2] = a[..., 2] * 0.90
 y = np.linspace(0, 1, out_h, dtype=np.float32)[:, None]
 x = np.linspace(0, 1, out_w, dtype=np.float32)[None, :]
 
-# Soften the purple/blue lens-flare streak across the mid torso / arm.
-# Magenta flare: blue high vs green, in a thin horizontal band.
-purple = np.clip((a[..., 2] - a[..., 1]) / 28.0, 0, 1)
-blueish = np.clip((a[..., 2] - a[..., 0] * 0.7) / 40.0, 0, 1)
-band = np.exp(-0.5 * ((y - 0.49) / 0.07) ** 2)
-horiz = np.exp(-0.5 * ((x - 0.45) / 0.42) ** 2)
-flare = np.clip(np.maximum(purple, blueish) * band * horiz * 2.2, 0, 1)
-# Paint the streak with neighbouring warm amber instead of blue
-amber = a[..., 0] * 0.50 + a[..., 1] * 0.40 + 12
-a[..., 2] = a[..., 2] * (1 - flare) + amber * flare
-a[..., 0] = np.minimum(255, a[..., 0] + flare * 8)
-a[..., 1] = np.minimum(255, a[..., 1] + flare * 4)
+# Fill the magenta lens-flare streak (R and B both well above G, in a band
+# across the arm/chest) with the surrounding colours, via a masked blur.
+mag = (np.clip((a[..., 0] - a[..., 1] - 35) / 40, 0, 1)
+       * np.clip((a[..., 2] - a[..., 1] - 15) / 35, 0, 1))
+band = np.exp(-0.5 * ((y - 0.49) / 0.08) ** 2)
+m = Image.fromarray((np.clip(mag * band, 0, 1) * 255).astype(np.uint8))
+m = np.asarray(m.filter(ImageFilter.MaxFilter(9)).filter(ImageFilter.GaussianBlur(6)),
+               np.float32) / 255
+keep = 1 - m
+num = Image.fromarray(np.clip(a * keep[..., None], 0, 255).astype(np.uint8))
+den = Image.fromarray((keep * 255).astype(np.uint8))
+num = np.asarray(num.filter(ImageFilter.GaussianBlur(22)), np.float32)
+den = np.asarray(den.filter(ImageFilter.GaussianBlur(22)), np.float32)[..., None] / 255
+fill = num / np.maximum(den, 0.05)
+a = a * keep[..., None] + fill * m[..., None]
+
+# The same streak tints the black shirt blue-purple; pull it back to warm black.
+# Kept right of the fairy lights (x > 0.3) so those stay blue.
+cool = (np.clip((a[..., 2] - a[..., 1] - 8) / 25, 0, 1)
+        * np.clip((a[..., 2] - 0.5 * a[..., 0]) / 20, 0, 1))
+shirt_band = np.exp(-0.5 * ((y - 0.48) / 0.06) ** 2) * np.clip((x - 0.3) / 0.05, 0, 1)
+c = Image.fromarray((np.clip(cool * shirt_band, 0, 1) * 255).astype(np.uint8))
+c = np.asarray(c.filter(ImageFilter.GaussianBlur(3)), np.float32)[..., None] / 255
+mean = a.mean(axis=2, keepdims=True)
+warm_black = mean * np.array([1.25, 0.55, 0.45], np.float32) * 0.75
+a = a * (1 - c) + warm_black * c
 
 # Gentle face lift
 face = np.exp(-(((x - 0.58) / 0.22) ** 2 + ((y - 0.22) / 0.18) ** 2))
