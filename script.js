@@ -366,6 +366,26 @@ document.querySelectorAll("[data-film]").forEach((stage) => {
   });
 });
 
+/* ---------- Ambient event clips (play only while on screen) ---------- */
+
+document.querySelectorAll("video[data-ambient]").forEach((video) => {
+  if (reduceMotion.matches) {
+    video.controls = true;
+    return;
+  }
+  if (!("IntersectionObserver" in window)) {
+    video.play().catch(() => {});
+    return;
+  }
+  new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) video.play().catch(() => {});
+      else video.pause();
+    },
+    { threshold: 0.25 }
+  ).observe(video);
+});
+
 /* ---------- Waitlist (Formspree) ---------- */
 
 document.querySelectorAll("[data-waitlist]").forEach((form) => {

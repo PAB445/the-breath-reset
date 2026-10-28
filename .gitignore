@@ -65,3 +65,7 @@ assets/social/instagram/practices/*/story/
 assets/social/instagram/reel-frames/
 assets/social/instagram/carousels/
 assets/social/instagram/posts/
+
+# Event source clips; the site uses the silent *-web.mp4 + *-poster.jpg
+assets/events/*/*.mp4
+!assets/events/*/*-web.mp4

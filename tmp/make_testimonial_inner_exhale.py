@@ -19,7 +19,7 @@ QUOTE = dict(
                 "It’s emotional, powerful,|and uplifting.",
                 "If you’re reading this,|look for me at the next one."],
     attribution="— Bakari, Inner Exhale participant",
-    photo="session-floor.jpg",
+    photo="inner-exhale-room.jpg",
     focus_x=0.49,   # horizontal centre of the 4:5 crop, as a fraction of photo width
     blur=7,
 )
