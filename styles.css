@@ -635,8 +635,7 @@ p {
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  object-position: 50% 32%;
-  filter: saturate(0.7) contrast(1.03) brightness(0.96);
+  object-position: 50% 50%;
 }
 
 .hero-figure figcaption {
@@ -667,7 +666,7 @@ p {
 
   .hero-figure img {
     aspect-ratio: 5 / 4;
-    object-position: 50% 38%;
+    object-position: 55% 50%;
   }
 
   .hero-figure figcaption {
