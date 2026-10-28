@@ -26,22 +26,23 @@ a[..., 0] = a[..., 0] * 1.05 + 5
 a[..., 1] = a[..., 1] * 1.02 + 2
 a[..., 2] = a[..., 2] * 0.90
 
-# Soften the cool lens-flare streak across the mid torso / arm
 y = np.linspace(0, 1, out_h, dtype=np.float32)[:, None]
 x = np.linspace(0, 1, out_w, dtype=np.float32)[None, :]
-cool = np.clip((a[..., 2] - a[..., 0]) / 35.0, 0, 1)
-# Horizontal band + slight left→right falloff where the flare sits
-band = np.exp(-0.5 * ((y - 0.50) / 0.11) ** 2)
-horiz = np.exp(-0.5 * ((x - 0.42) / 0.35) ** 2)
-flare = np.clip(cool * band * horiz * 1.6, 0, 1)
-# Replace blue with a warm sample of nearby amber
-warm = (a[..., 0] * 0.55 + a[..., 1] * 0.35 + 18)
-a[..., 2] = a[..., 2] * (1 - flare) + warm * flare
-a[..., 0] = a[..., 0] * (1 - flare * 0.15) + (a[..., 0] + 10) * (flare * 0.15)
-a[..., 1] = a[..., 1] * (1 - flare * 0.1) + (a[..., 1] + 6) * (flare * 0.1)
+
+# Soften the purple/blue lens-flare streak across the mid torso / arm.
+# Magenta flare: blue high vs green, in a thin horizontal band.
+purple = np.clip((a[..., 2] - a[..., 1]) / 28.0, 0, 1)
+blueish = np.clip((a[..., 2] - a[..., 0] * 0.7) / 40.0, 0, 1)
+band = np.exp(-0.5 * ((y - 0.49) / 0.07) ** 2)
+horiz = np.exp(-0.5 * ((x - 0.45) / 0.42) ** 2)
+flare = np.clip(np.maximum(purple, blueish) * band * horiz * 2.2, 0, 1)
+# Paint the streak with neighbouring warm amber instead of blue
+amber = a[..., 0] * 0.50 + a[..., 1] * 0.40 + 12
+a[..., 2] = a[..., 2] * (1 - flare) + amber * flare
+a[..., 0] = np.minimum(255, a[..., 0] + flare * 8)
+a[..., 1] = np.minimum(255, a[..., 1] + flare * 4)
 
 # Gentle face lift
-x = np.linspace(0, 1, out_w, dtype=np.float32)[None, :]
 face = np.exp(-(((x - 0.58) / 0.22) ** 2 + ((y - 0.22) / 0.18) ** 2))
 a += face[..., None] * 14
 

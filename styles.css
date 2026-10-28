@@ -1537,20 +1537,6 @@ p {
   line-height: 1.35;
 }
 
-.event-arc {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 0;
-  font-size: 0.88rem;
-  color: var(--paper);
-}
-
-.event-arc li:not(:last-child)::after {
-  content: "→";
-  margin: 0 10px;
-  color: var(--clay);
-}
-
 .event-gallery {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
