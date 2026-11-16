@@ -1,0 +1,151 @@
+/* Page layouts that place the cards: A4 4-up sheets, A6 trade-print pages,
+   single-card renders and presentation mockups. */
+
+/* --------------------------------------------------------- A4 4-up sheet */
+
+.sheet {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  background: #fff;
+  break-after: page;
+}
+
+.sheet:last-child {
+  break-after: auto;
+}
+
+/* Cream extends 1.5 mm past the outer trim so a slightly wide cut never shows white. */
+.bleed {
+  position: absolute;
+  left: 3.5mm;
+  top: 5.6mm;
+  width: 203mm;
+  height: 285.8mm;
+  background: var(--cream);
+}
+
+.grid {
+  position: absolute;
+  left: 5mm;
+  top: 7.1mm;
+  display: grid;
+  grid-template-columns: repeat(2, var(--card-w));
+  grid-template-rows: repeat(2, var(--card-h));
+}
+
+.marks {
+  position: absolute;
+  inset: 0;
+  width: 210mm;
+  height: 297mm;
+}
+
+/* ------------------------------------------------ A6 trade print (+3 mm bleed) */
+
+.a6-page {
+  position: relative;
+  width: 111mm;
+  height: 154.5mm;
+  overflow: hidden;
+  background: var(--cream);
+  break-after: page;
+}
+
+.a6-page:last-child {
+  break-after: auto;
+}
+
+.a6-page .card,
+.single .card {
+  position: absolute;
+  transform-origin: 0 0;
+  transform: scale(1.05);
+}
+
+.a6-page .card {
+  left: 3mm;
+  top: 3mm;
+}
+
+/* ---------------------------------------------------- single card render */
+
+.single {
+  position: relative;
+  width: 105mm;
+  height: 148.5mm;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+.single .card {
+  left: 0;
+  top: 0;
+}
+
+/* --------------------------------------------------------------- mockups */
+
+.scene {
+  position: relative;
+  width: 1600px;
+  height: 1100px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 30% 20%, #efe6d9 0%, #e3d6c4 55%, #d6c6b0 100%);
+}
+
+.scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0 0.3  0 0 0 0.55 0'/></filter><rect width='400' height='400' filter='url(%23n)'/></svg>");
+}
+
+.scene .glow {
+  position: absolute;
+  right: -260px;
+  top: -320px;
+  width: 1000px;
+  height: 1000px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 214, 170, 0.55), rgba(255, 214, 170, 0));
+}
+
+.mock-card {
+  position: absolute;
+  width: var(--card-w);
+  height: var(--card-h);
+  transform-origin: 50% 50%;
+}
+
+.mock-card .card {
+  box-shadow:
+    0 0.3mm 0.5mm rgba(60, 40, 25, 0.18),
+    0 2mm 4mm rgba(60, 40, 25, 0.14),
+    0 8mm 16mm rgba(60, 40, 25, 0.16);
+}
+
+.mock-sheet {
+  position: absolute;
+  width: 210mm;
+  height: 297mm;
+  transform-origin: 0 0;
+  box-shadow:
+    0 1px 2px rgba(60, 40, 25, 0.16),
+    0 10px 24px rgba(60, 40, 25, 0.14),
+    0 30px 60px rgba(60, 40, 25, 0.14);
+}
+
+.mock-label {
+  position: absolute;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #6d6157;
+}

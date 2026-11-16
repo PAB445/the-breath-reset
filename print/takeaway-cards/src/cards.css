@@ -1,0 +1,330 @@
+/* The Breath Reset — takeaway cards
+   All card geometry is in mm and type in pt so the print output is exact.
+   Card trim: 100 × 141.4 mm (A6 proportion, 4-up on A4 with printer margins).
+   The A6 trade-print version scales the same card by 1.05. */
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("fonts/InstrumentSerif-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("fonts/InstrumentSerif-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Manrope";
+  src: url("fonts/Manrope.ttf") format("truetype");
+  font-weight: 300 800;
+  font-style: normal;
+}
+
+:root {
+  --cream: #f5eee3;
+  --cream-deep: #ebe1d2;
+  --ink: #26211d;
+  --ink-soft: #5b5149;
+  --rule: rgba(38, 33, 29, 0.16);
+
+  --clay: #d19073;
+  --clay-soft: #efd3c2;
+  --clay-ink: #9a5434;
+
+  --sage: #8ea595;
+  --sage-soft: #d9e2da;
+  --sage-ink: #3d5a55;
+
+  --serif: "Instrument Serif", Georgia, serif;
+  --sans: "Manrope", "Helvetica Neue", Arial, sans-serif;
+
+  --card-w: 100mm;
+  --card-h: 141.4mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+  font-kerning: normal;
+  font-feature-settings: "kern", "liga";
+}
+
+p,
+h1,
+h2,
+ol,
+figure,
+blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+/* ------------------------------------------------------------------ card */
+
+.card {
+  position: relative;
+  width: var(--card-w);
+  height: var(--card-h);
+  overflow: hidden;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+}
+
+.no-tint .card,
+.no-tint .bleed {
+  background: transparent;
+}
+
+/* ----------------------------------------------------------------- front */
+
+.front {
+  display: flex;
+  flex-direction: column;
+  padding: 7.6mm 7mm 5.8mm;
+}
+
+.f-head h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 23pt;
+  line-height: 0.95;
+  letter-spacing: -0.012em;
+}
+
+.f-head .sub {
+  margin-top: 1.6mm;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 10.5pt;
+  line-height: 1.2;
+  color: var(--ink-soft);
+}
+
+.practice {
+  margin-top: 3.3mm;
+  padding-top: 3.1mm;
+  border-top: 0.35pt solid var(--rule);
+}
+
+.p-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 3mm;
+}
+
+.p-tag {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1.3mm;
+  padding-bottom: 0.7mm;
+}
+
+.p-art {
+  display: block;
+}
+
+.p-kicker {
+  font-size: 6pt;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-right: -0.2em;
+}
+
+.practice h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 20pt;
+  line-height: 1;
+  letter-spacing: -0.005em;
+}
+
+.practice .for {
+  margin-top: 0.9mm;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 10.5pt;
+  line-height: 1.2;
+  color: var(--ink-soft);
+}
+
+.p-label {
+  margin-top: 2.5mm;
+  font-size: 5.9pt;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.steps {
+  list-style: none;
+  margin-top: 1mm;
+  counter-reset: step;
+}
+
+.steps li {
+  position: relative;
+  padding-left: 3.8mm;
+  font-size: 7.8pt;
+  letter-spacing: -0.004em;
+  font-weight: 500;
+  line-height: 1.35;
+  counter-increment: step;
+}
+
+.steps li + li {
+  margin-top: 0.7mm;
+}
+
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: -0.3mm;
+  font-family: var(--serif);
+  font-size: 10.5pt;
+  line-height: 1;
+}
+
+.when {
+  margin-top: 1mm;
+  font-size: 7.8pt;
+  letter-spacing: -0.004em;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.energise .p-kicker,
+.energise h2,
+.energise .steps li::before {
+  color: var(--clay-ink);
+}
+
+.calm .p-kicker,
+.calm h2,
+.calm .steps li::before {
+  color: var(--sage-ink);
+}
+
+.f-foot {
+  margin-top: auto;
+  padding-top: 2.2mm;
+  border-top: 0.35pt solid var(--rule);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 7.9pt;
+  line-height: 1.25;
+  color: var(--ink-soft);
+}
+
+/* ------------------------------------------------------------------ back */
+
+.back {
+  display: flex;
+  flex-direction: column;
+}
+
+.b-photo {
+  flex: none;
+  margin: 5mm 5mm 0;
+  height: 65mm;
+  overflow: hidden;
+  border-radius: 1.2mm;
+  background: #3a2016;
+}
+
+.b-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 54% 38%;
+}
+
+.b-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 6mm 8.5mm 6.6mm;
+}
+
+.b-name {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 24pt;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+.b-role {
+  margin-top: 1.9mm;
+  font-size: 6.2pt;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clay-ink);
+}
+
+.b-quote {
+  margin-top: 4.2mm;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 10.6pt;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.b-quote p + p {
+  margin-top: 1.6mm;
+}
+
+.b-links {
+  margin-top: auto;
+  padding-top: 3.2mm;
+  border-top: 0.35pt solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.b-ig {
+  display: flex;
+  align-items: center;
+  gap: 1.7mm;
+  font-size: 8.4pt;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.b-ig svg {
+  width: 3.6mm;
+  height: 3.6mm;
+  flex: none;
+}
+
+.b-web {
+  font-size: 7.4pt;
+  font-weight: 500;
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+}

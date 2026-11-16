@@ -112,11 +112,12 @@ const buildTrace = (svg) => {
   const { a } = spec;
   const b = spec.b || a;
   const twoPart = Boolean(spec.b);
+  const draw = (progress = null) => {
   let phase = 0;
   let d = "";
 
   for (let x = 0; x <= 1000; x += 2) {
-    const w = twoPart ? smoothstep(430, 570, x) : 0;
+    const w = twoPart ? mix(smoothstep(430, 570, x), 1, progress || 0) : 0;
     const p = {
       freq: mix(a.freq, b.freq, w),
       amp: mix(a.amp, b.amp, w),
@@ -132,6 +133,9 @@ const buildTrace = (svg) => {
     phase += (p.freq / 1000) * 2 * (1 + p.jitter * 0.35 * Math.sin(x * 0.031 + cycle));
   }
 
+  return d;
+  };
+
   if (twoPart) {
     const mid = document.createElementNS(SVG_NS, "path");
     mid.setAttribute("class", "trace-mid");
@@ -142,8 +146,38 @@ const buildTrace = (svg) => {
   const line = document.createElementNS(SVG_NS, "path");
   line.setAttribute("class", "trace-line");
   line.setAttribute("pathLength", "1");
-  line.setAttribute("d", d);
+  line.setAttribute("d", draw());
   svg.append(line);
+
+  const row = svg.closest(".state-row");
+  if (!row || !twoPart) return;
+  let frame = 0;
+  let progress = 0;
+  const transitionTo = (target) => {
+    cancelAnimationFrame(frame);
+    if (reduceMotion.matches) {
+      progress = 0;
+      line.setAttribute("d", draw());
+      return;
+    }
+    const from = progress;
+    const started = performance.now();
+    const duration = target ? 2400 : 700;
+    const tick = (now) => {
+      const elapsed = Math.min(1, (now - started) / duration);
+      progress = mix(from, target, smoothstep(0, 1, elapsed));
+      line.setAttribute("d", draw(progress));
+      if (elapsed < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+  };
+  const stop = () => transitionTo(0);
+  const animate = () => transitionTo(1);
+  row.addEventListener("pointerenter", animate);
+  row.addEventListener("pointerleave", () => { if (!row.matches(":focus-within")) stop(); });
+  row.addEventListener("focusin", animate);
+  row.addEventListener("focusout", stop);
+  reduceMotion.addEventListener("change", stop);
 };
 
 document.querySelectorAll("svg[data-trace]").forEach(buildTrace);
@@ -342,7 +376,16 @@ if (lab) {
     });
   });
 
+  const applyLabLink = () => {
+    if (window.location.hash !== "#lab-check") return;
+    mode = "check";
+    modeButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.labMode === mode)));
+    reset();
+    document.getElementById("lab").scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth" });
+  };
+  window.addEventListener("hashchange", applyLabLink);
   reset();
+  applyLabLink();
 }
 
 /* ---------- Founder film (load on demand) ---------- */
@@ -386,7 +429,7 @@ document.querySelectorAll("video[data-ambient]").forEach((video) => {
   ).observe(video);
 });
 
-/* ---------- Waitlist (Formspree) ---------- */
+/* ---------- Waitlist (Google Apps Script) ---------- */
 
 document.querySelectorAll("[data-waitlist]").forEach((form) => {
   const status = form.querySelector(".waitlist-status");
@@ -395,27 +438,39 @@ document.querySelectorAll("[data-waitlist]").forEach((form) => {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    if (form.action.includes("FORMSPREE_FORM_ID")) {
+    const endpoint = window.BREATH_RESET_SIGNUP_URL || "";
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(endpoint)) {
       status.innerHTML = 'The waitlist isn\'t connected yet. <a href="https://ig.me/m/the.breath.reset" target="_blank" rel="noopener">Message me on Instagram</a> and I\'ll add you.';
       return;
     }
 
+    if (button.disabled || form.classList.contains("is-done")) return;
     button.disabled = true;
     status.textContent = "Sending…";
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20000);
 
     try {
-      const response = await fetch(form.action, {
+      const data = new URLSearchParams(new FormData(form));
+      data.set("source", location.pathname.split("/").pop() || "index.html");
+      const response = await fetch(endpoint, {
         method: "POST",
-        body: new FormData(form),
-        headers: { Accept: "application/json" }
+        body: data,
+        redirect: "follow",
+        credentials: "omit",
+        signal: controller.signal
       });
       if (!response.ok) throw new Error(String(response.status));
+      const result = await response.json();
+      if (result.ok !== true) throw new Error("Signup not saved");
       form.classList.add("is-done");
-      status.textContent = "You're on the list. I'll be in touch when dates are set.";
+      status.textContent = "You’re on the list. I’ll be in touch when dates are set.";
+      button.textContent = "You’re on the list";
     } catch {
       status.innerHTML = 'That didn\'t go through. Try again, or <a href="https://ig.me/m/the.breath.reset" target="_blank" rel="noopener">message me on Instagram</a>.';
     } finally {
-      button.disabled = false;
+      clearTimeout(timeout);
+      button.disabled = form.classList.contains("is-done");
     }
   });
 });
@@ -437,7 +492,7 @@ if (sticky && "IntersectionObserver" in window) {
     });
     update();
   });
-  document.querySelectorAll("[data-waitlist], .site-footer").forEach((el) => blockObserver.observe(el));
+  document.querySelectorAll("[data-waitlist], [data-lab], .site-footer").forEach((el) => blockObserver.observe(el));
   window.addEventListener("scroll", update, { passive: true });
   update();
 }

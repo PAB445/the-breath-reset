@@ -1,0 +1,65 @@
+{
+  "_about": "Edit decision list for the 'Biggest breathwork lesson' reel. Every time here is in SOURCE seconds (source.mp4), except tail/end_card durations. Read by tmp/bbl_edit.py; see resources/docs/content-production.md.",
+
+  "source": "../source.mp4",
+  "source_duration": 142.43,
+  "fps": 30,
+
+  "_face": "Face centre in the 1620x1080 source. Every crop and push-in is anchored here.",
+  "face": {"x": 785, "y": 380},
+
+  "_grade": "Applied to the source before reframing. saturation <1 pulls the bright bamboo toward the warm-earth palette; warmth is a 0-1 blend toward brand umber.",
+  "grade": {"saturation": 0.84, "contrast": 1.04, "brightness": -0.015, "warmth": 0.10, "vignette": 0.42},
+
+  "_holds": "Natural pauses that are lengthened. The window must sit inside a silence: video plays through it slowed, audio is filled with the pause's own room tone.",
+  "holds": [
+    {"from": 47.80, "to": 48.45, "extra": 0.6, "_note": "after 'avoiding the feeling itself' -> into Bali"},
+    {"from": 68.55, "to": 69.60, "extra": 1.2, "_note": "after 'come back into my body' -- the realisation"},
+    {"from": 101.12, "to": 101.78, "extra": 1.0, "_note": "let 'to go away' land"}
+  ],
+
+  "_tail": "After the last word: crossfade to a closed-mouth frame, hold, fade to warm black, then the end card.",
+  "tail": {"settle_frame": 141.93, "settle_xfade": 0.35, "hold": 1.6, "fade_to_dark": 1.5, "end_card": 5.2},
+
+  "_shots": "Each shot runs until the next one starts (a cut). zoom 1.0 = full-height 9:16 crop; zoom eases from[0] to [1] over the shot. dx shifts the crop sideways in source px (+ puts the face left of centre). Cuts sit in pauses.",
+  "shots": [
+    {"at": 0.00,   "zoom": [1.00, 1.08], "dx": 0,   "_note": "opening -- slow push as the idea develops"},
+    {"at": 7.30,   "zoom": [1.02, 1.04], "dx": 26,  "_note": "history with anxiety"},
+    {"at": 16.20,  "zoom": [1.10, 1.13], "dx": 0,   "_note": "breakthrough / 'I could feel anxious'"},
+    {"at": 24.40,  "zoom": [1.00, 1.02], "dx": -22, "_note": "'But strangely...'"},
+    {"at": 38.10,  "zoom": [1.05, 1.15], "dx": 0,   "_note": "push through 'avoiding the feeling itself'"},
+    {"at": 48.20,  "zoom": [1.00, 1.10], "dx": 0,   "_note": "Bali -- one long, slow push, no cuts"},
+    {"at": 69.55,  "zoom": [1.03, 1.04], "dx": 28,  "_note": "everyday life"},
+    {"at": 79.20,  "zoom": [1.00, 1.01], "dx": 0,   "_note": "people-pleasing -- wide, room for the message bubbles"},
+    {"at": 97.45,  "zoom": [1.13, 1.16], "dx": 0,   "_note": "'You're sending it because...' -- close"},
+    {"at": 101.50, "zoom": [1.00, 1.03], "dx": 24,  "_note": "morning coffee -- grounded, ordinary"},
+    {"at": 111.00, "zoom": [1.07, 1.09], "dx": 0,   "_note": "'the familiar tension building'"},
+    {"at": 121.90, "zoom": [1.03, 1.10], "dx": 0,   "_note": "'Where do I actually feel this'"},
+    {"at": 131.25, "zoom": [1.13, 1.17], "dx": 0,   "_note": "ending -- steady, intimate"}
+  ],
+
+  "_start_screen": "Title over the live opening (he is already speaking). Replaces the caption for the words it covers. |bars| mark the sage-italic turn.",
+  "start_screen": {
+    "until": 2.32,
+    "eyebrow": "THE BREATH RESET",
+    "title": ["One of the biggest things", "|breathwork has taught me|"]
+  },
+
+  "_messages": "Abstract message bubbles for the people-pleasing example. No real text -- placeholder bars only.",
+  "messages": {
+    "first": 81.70, "read": 84.30, "second": 89.25, "out": 93.40
+  },
+
+  "_broll": "Optional cutaways. Drop a clip in broll/ and add an entry: {\"file\": \"broll/bali.mp4\", \"at\": 49.0, \"dur\": 4.0, \"in\": 0.0}. 'at' is source time; his voice keeps running underneath. Leave empty to stay on the talking head.",
+  "broll": [],
+  "_broll_suggestions": [
+    {"at": 49.0, "dur": 4.5, "_note": "real Bali retreat footage, if you have it (only genuine footage)"},
+    {"at": 106.4, "dur": 3.8, "_note": "you making / holding your morning coffee"}
+  ],
+
+  "_music": "track: null uses the original generated score (tmp/biggest-lesson-music.wav). Set a path (relative to this folder) to use your own licensed track instead. gain_db shifts the bed; duck_db is how far it dips under your voice.",
+  "music": {"track": null, "gain_db": 0.0, "duck_db": 5.0},
+
+  "_audio": "Voice loudness target and how hard the denoiser may work (dB). Higher denoise = cleaner but less natural.",
+  "audio": {"voice_lufs": -16.0, "music_lufs": -27.5, "denoise_db": 14}
+}

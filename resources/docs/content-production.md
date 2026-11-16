@@ -497,6 +497,191 @@ python3 tmp/render_quiet_breathing.py        # → quiet-breathing-final.mp4
 
 ---
 
+## Reflection reels (personal talking-head, vertical)
+
+First one: **“Biggest breathwork lesson”** (Learning to feel, not fix). A
+personal story told straight to camera, so there are no diagrams. The only
+layers are captions, a few highlighted lines, one abstract message moment,
+the start screen and the end card. Unlike the quiet-breathing script, all the
+editorial decisions live in data files next to the footage, so you can
+re-edit without touching code.
+
+**Folder:** `assets/social/instagram/reflections/biggest-breathwork-lesson/`
+
+`source.mp4` (the raw 1620×1080 recording, gitignored) sits in that folder and
+is shared. Each cut lives in its own subfolder with `edit.json`,
+`captions.srt`, `cover.png` and `biggest-breathwork-lesson.mp4`:
+
+| Folder | Cut |
+|--------|-----|
+| `v1/` | Original: slow push-ins and cuts between crops |
+| `v2/` | One fixed full-height crop, no push-ins or cuts |
+
+The scripts default to `v1`. `edit.json` in each folder points at
+`../source.mp4`. Optional b-roll goes in that cut's `broll/` (gitignored).
+
+```bash
+HF_HOME=tmp/.hf tmp/.venv-asr/bin/python tmp/transcribe_biggest_lesson.py  # word stamps (only after new footage)
+python3 tmp/make_biggest_lesson_captions.py --force   # rebuild captions.srt (discards hand edits)
+tmp/.venv-dsp/bin/python tmp/make_biggest_lesson_audio.py   # voice cleanup + score + mix
+BL_STILLS=1 python3 tmp/render_biggest_lesson.py      # check stills → tmp/biggest-lesson-frames/
+BL_PREVIEW=1 python3 tmp/render_biggest_lesson.py     # 540×960 proof (*-preview.mp4)
+python3 tmp/render_biggest_lesson.py                  # final master (~10 min)
+BL_COVER=1 python3 tmp/render_biggest_lesson.py       # cover.png
+```
+
+`tmp/biggest_lesson_edit.py` is the shared timeline. It maps source time to
+finished-video time (lengthened pauses shift everything after them) and
+works out the crop for every frame. All times in `edit.json` are **source**
+seconds, which you can read straight off the transcript
+(`tmp/biggest-lesson-words.json`).
+
+To render v2 instead, prefix any of the commands above with
+`BL_REEL_DIR` pointing at the v2 folder:
+
+```bash
+BL_REEL_DIR="assets/social/instagram/reflections/biggest-breathwork-lesson/v2" \
+  python3 tmp/render_biggest_lesson.py
+```
+
+### Common changes
+
+- **Fix a caption or its timing:** edit `captions.srt`, then re-render. Keep
+  each cue to two lines. Wrap the turn of a key line in `<i>…</i>` to make it
+  a highlighted moment (Instrument Serif, sage italic); use these sparingly.
+- **Lengthen or shorten a pause:** change `extra` on a `holds` entry, or add
+  one. The `from`/`to` window must sit inside a silence. Then re-run the audio
+  script and `make_biggest_lesson_captions.py --force`, because the
+  captions shift.
+- **Reframe:** each `shots` entry is a cut. `zoom` eases from the first to the
+  second value across the shot; keep it ≤ ~1.18 (the source is upscaled ~1.8×
+  already). `dx` slides the crop sideways.
+- **Add b-roll:** put the clip in `broll/` and add
+  `{"file": "broll/bali.mp4", "at": 49.0, "dur": 4.0, "in": 0}` to `broll`.
+  `at` is source time; his voice keeps running underneath, and the clip gets
+  the same grade and 0.4s crossfades. Use only genuine footage.
+- **Use your own music:** set `music.track` to a licensed file in the folder
+  (e.g. `"music/track.mp3"`), then re-run the audio script and render. It gets the
+  same loudness target, ducking and fades. `music.gain_db` nudges the level;
+  `music.duck_db` sets how far it dips under the voice.
+
+### New reflection reel from new footage
+
+1. Make `assets/social/instagram/reflections/<slug>/`, drop the recording in
+   as `source.mp4`, and copy `edit.json` from this reel.
+2. Copy the four `*biggest_lesson*` / `*biggest-lesson*` scripts with the new
+   slug, and point `REEL_DIR` in the edit module at the new folder.
+3. Transcribe, write the `PHRASES` list in the captions script, set `face`,
+   `source_duration`, `holds`, `shots`, `start_screen`, then run the steps above.
+
+### Design constraints baked into the scripts
+
+- **Start screen = the opening line.** The cover-style title (eyebrow, clay
+  rule, serif headline with a sage italic turn) sits over the first ~2.3s
+  *while he is already speaking*, and its words are the words he is saying,
+  so there's no separate intro and no caption duplicate. It fades as the first
+  caption arrives.
+- **Layout bands:** face y ~250–1010 never covered; message bubbles on the
+  upper chest (y ~1160–1370); captions at y ~1420–1540; x 90–950.
+- **Message bubbles have no words**, just placeholder bars plus a
+  Delivered → Read receipt, so the example never pretends to be a real conversation.
+- **Ending:** the source stops right on “okay”, so the tail crossfades to a
+  closed-mouth frame (`tail.settle_frame`), holds with the push still
+  drifting, fades to warm black, then shows the standard end card.
+- **Audio:** DeepFilterNet with a 14 dB cap (breaths stay), targeted declick,
+  2-stage gentle compression, voice → −16 LUFS, score ≈ −27.5 LUFS ducked 5 dB
+  under speech, mix → −15 LUFS / −1 dBFS peak. Lengthened pauses are filled
+  with the pause's own room tone.
+- **Score is original** (synthesised in the audio script), so it is safe to
+  publish. Piano notes only land in his natural pauses. The tonic chord is
+  held back until “Sometimes I just need to let myself feel it”.
+
+---
+
+## Breathe Light (Relax, 16:9 YouTube guided practice)
+
+Cinematic ~10-minute guided practice built from a Voice Memos recording
+(`breathe-light.m4a`, repo root, gitignored). Mountain-lake stills with procedural
+motion, an original synthesised score, two 60-second BOLT timer windows.
+
+```bash
+ffmpeg -i breathe-light.m4a -ar 44100 -ac 1 tmp/bl-source.wav
+HF_HOME=tmp/.hf tmp/.venv-asr/bin/python tmp/transcribe_breathe_light.py   # word stamps
+tmp/.venv-dsp/bin/python tmp/clean_breathe_light_voice.py    # noise + room echo (DeepFilterNet)
+tmp/.venv-dsp/bin/python tmp/make_breathe_light_audio.py     # edit, score, mix, SRT, edit JSON
+tmp/.venv-dsp/bin/python tmp/render_breathe_light.py         # → breathe-light-youtube.mp4
+tmp/.venv-dsp/bin/python tmp/qc_breathe_light.py             # checks against the brief
+```
+
+`tmp/.venv-dsp` (Python 3.10): `uv venv --python 3.10 tmp/.venv-dsp && uv pip install
+torch==2.0.1 torchaudio==2.0.2 "numpy<2" deepfilternet nara_wpe soundfile scipy
+pyloudnorm pillow`. numpy segfaults inside the agent sandbox, so run unsandboxed.
+
+| Env var | Effect |
+|---------|--------|
+| `BL_STILLS=1` / `BL_STILLS=62,300` | Check stills to `tmp/breathe-light-frames/` |
+| `BL_PREVIEW=1` | 960×540 proof render |
+
+**Folder:** `assets/social/youtube/relax/breathe-light/` — final MP4, `-mix.wav`,
+`-voice.wav`, `-music.wav` stems, `.srt`, `-edit.json` (edit decision list:
+every inserted pause, BOLT timer times, section boundaries, word times on the
+final timeline) and `source/` (the two lake plates).
+
+- **The recording is never stretched.** The edit only lengthens existing pauses
+  (`GAPS` in the audio script), cutting at the quietest point with 200 ms fades.
+- **BOLT windows** start on the acoustic end of "...begin." and the voice
+  returns exactly 61.5 s later (60 s + timer fade). The voice track is muted
+  inside both windows (handling noise in the recording).
+- **Music** is generated in numpy (felt piano, pads, low line, air) so it is
+  fully owned. Melody notes skip moments where the voice is speaking; the bed
+  ducks 9 dB under speech. Master: −14 LUFS, true peak −1.2 dBTP.
+- **Picture** is 1080p: the generated plates are 1280×720, so 4K would only be
+  an upscale. Dawn → sunrise plates are aligned to 1 px and crossfade over
+  Soften / Let Go while procedural mist thins.
+- All overlay timing is read from `breathe-light-edit.json`; re-running the
+  audio script re-times the video automatically.
+
+### v2 practice script (current)
+
+The practice section was re-recorded (`source/breathe-light-v2.m4a`: Notice,
+Soften, Breathe Less, Let Go). The intro, both BOLT measurements and the
+closing still come from the original `breathe-light.m4a`. One script builds the
+audio for all three cuts, then the renderers run as before:
+
+```bash
+ffmpeg -i assets/social/youtube/relax/breathe-light/source/breathe-light-v2.m4a -ar 44100 -ac 1 tmp/bl2-source.wav
+BL_AUDIO=breathe-light-v2.m4a BL_WORDS=breathe-light-v2-words.json \
+  HF_HOME=tmp/.hf tmp/.venv-asr/bin/python tmp/transcribe_breathe_light.py
+BL_TAG=bl2 tmp/.venv-dsp/bin/python tmp/clean_breathe_light_voice.py
+tmp/build_breathe_light_variants.sh     # make_breathe_light_v2.py all + all renders
+```
+
+| Cut | Folder | Content |
+|-----|--------|---------|
+| film | `youtube/relax/breathe-light/` | old intro + BOLT 1 → short v2 practice → old BOLT 2 + closing (~9:30). Same pauses and the dance cut as no-bolt v2 |
+| no-bolt | `youtube/relax/breathe-light-no-bolt/` | first long cut, kept. The reviewed cut is no-bolt v2 |
+| reel | `instagram/practices/breathe-light/` | 90 s complete short flow: notice, soften, breathe less, let go. Portrait is rendered at 3600×2024 and scaled down |
+
+- **v2 voice cleanup:** besides WPE + DeepFilterNet, the v2 recording is gated
+  to its words (pauses are true silence: no mouse-scroll clicks), short clicks
+  outside words are pulled down 30 dB, and 2 ms mouth clicks inside words are
+  repaired in the band above 3 kHz only. It is level- and tone-matched to the
+  original session before the shared voice chain.
+- **End card:** film keeps "Breathe better. Feel more."; no-bolt and reel use
+  "Soft, quiet, light." (`CLOSE` in `make_breathe_light_v2.py`).
+- **Picture** adds water glints, slow sun rays, drifting light motes, an
+  occasional ripple ring and a gentle camera float on top of the mist/cloud
+  motion. Still nothing on a breath rhythm.
+
+**no-bolt v2** (`youtube/relax/breathe-light-no-bolt-v2/`, ~5:47) is the cut to
+review before the others are shortened. `make_breathe_light_v2.py no-bolt-v2`
+uses `SHORT_GAPS`, drops “This is a bit of a dance … more air.”, and leaves the
+Let Go pause at its natural length. Its plates are regenerated and upscaled to
+5120×2880 (`source/`), so the 1080p frame is a downsample. The original
+no-bolt film is unchanged. Render with `BL_SRC` pointing at that folder.
+
+---
+
 ## Website integration
 
 **`videos.html`** embeds the 9:16 practice reels:
@@ -628,6 +813,11 @@ cd breathing-reel && ./serve.sh 8080
 | `make_quiet_breathing_cover.py` | source still at 100.15s | `quiet-breathing/cover.png` |
 | `make_quiet_breathing_audio.py` | source audio | `tmp/quiet-breathing-music.wav`, `tmp/quiet-breathing-mix.wav` |
 | `render_quiet_breathing.py` | source + mix WAV | `quiet-breathing-final.mp4` |
+| `biggest_lesson_edit.py` | `edit.json` | Shared timeline/framing module (imported) |
+| `transcribe_biggest_lesson.py` | reflection `source.mp4` | `tmp/biggest-lesson-words.json` |
+| `make_biggest_lesson_captions.py` | word stamps + `edit.json` | `captions.srt` |
+| `make_biggest_lesson_audio.py` | source + `edit.json` | `tmp/biggest-lesson-{voice,music,mix}.wav` |
+| `render_biggest_lesson.py` | source + mix + `captions.srt` | `biggest-breathwork-lesson.mp4`, `cover.png` |
 
 ---
 

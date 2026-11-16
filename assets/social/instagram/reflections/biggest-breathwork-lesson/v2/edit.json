@@ -1,0 +1,40 @@
+{
+  "_about": "v2 of the 'Biggest breathwork lesson' reel: the same timeline, captions, grade and overlays as the parent folder, with one fixed full-height crop and no push-ins or cuts. source.mp4 and the mix live with the original.",
+
+  "source": "../source.mp4",
+  "source_duration": 142.43,
+  "fps": 30,
+
+  "face": {"x": 785, "y": 380},
+
+  "grade": {"saturation": 0.84, "contrast": 1.04, "brightness": -0.015, "warmth": 0.10, "vignette": 0.42},
+
+  "holds": [
+    {"from": 47.80, "to": 48.45, "extra": 0.6, "_note": "after 'avoiding the feeling itself' -> into Bali"},
+    {"from": 68.55, "to": 69.60, "extra": 1.2, "_note": "after 'come back into my body' -- the realisation"},
+    {"from": 101.12, "to": 101.78, "extra": 1.0, "_note": "let 'to go away' land"}
+  ],
+
+  "tail": {"settle_frame": 141.93, "settle_xfade": 0.35, "hold": 1.6, "fade_to_dark": 1.5, "end_card": 5.2},
+
+  "_shots": "One shot for the whole reel. zoom stays at 1.0, so the 9:16 crop never moves.",
+  "shots": [
+    {"at": 0.00, "zoom": [1.00, 1.00], "dx": 0, "_note": "fixed crop, centred on the face"}
+  ],
+
+  "start_screen": {
+    "until": 2.32,
+    "eyebrow": "THE BREATH RESET",
+    "title": ["One of the biggest things", "|breathwork has taught me|"]
+  },
+
+  "messages": {
+    "first": 81.70, "read": 84.30, "second": 89.25, "out": 93.40
+  },
+
+  "broll": [],
+
+  "music": {"track": null, "gain_db": 0.0, "duck_db": 5.0},
+
+  "audio": {"voice_lufs": -16.0, "music_lufs": -27.5, "denoise_db": 14}
+}

@@ -7,12 +7,19 @@ output/
 .playwright-cli/
 tmp/master-*.wav
 tmp/*.wav
+tmp/*.rgb
+tmp/*.f32
 tmp/test_*.mp4
 tmp/frame_*.png
 tmp/reel_test_*.mp4
 tmp/story-frames/
 tmp/event-ad-frames/
 tmp/*.png
+tmp/v2-check/
+tmp/bl-backup/
+tmp/bl2-*.jpg
+tmp/bl2-energy.txt
+tmp/chk-*.jpg
 
 # Local tool caches / virtualenvs (never commit)
 .venv/
@@ -43,6 +50,16 @@ assets/social/youtube/retrain/quiet-breathing/*.mp4
 tmp/quiet-breathing-frames/
 tmp/quiet-frames/
 
+# Breathe Light (Relax, 16:9 YouTube) -- master, stems and render scratch;
+# regenerate via tmp/make_breathe_light_audio.py + tmp/render_breathe_light.py
+assets/social/youtube/relax/breathe-light*/*.mp4
+assets/social/youtube/relax/breathe-light*/*.wav
+assets/social/instagram/practices/breathe-light*/*.mp4
+assets/social/instagram/practices/breathe-light*/*.wav
+tmp/breathe-light-frames/
+tmp/bl-chunks*/
+breathe-light*.m4a
+
 # Founder source / working exports; keep only the site-ready web MP4 + cover
 assets/social/youtube/founder-video/*.mov
 assets/social/youtube/founder-video/founder-story-v2.mp4
@@ -50,6 +67,14 @@ assets/social/youtube/founder-video/founder-story-v2-final.mp4
 assets/social/youtube/founder-video/end.png
 assets/social/youtube/founder-video/overlays/
 resources/founder-video-v2.mp4
+
+# Reflection reels (talking head): keep edit.json, captions.srt and cover.png;
+# the source footage, b-roll and rendered MP4s are regenerated / kept locally
+assets/social/instagram/reflections/*/*.mp4
+assets/social/instagram/reflections/*/*/*.mp4
+assets/social/instagram/reflections/*/broll/
+assets/social/instagram/reflections/*/*/broll/
+tmp/biggest-lesson-frames/
 
 # Instagram event creatives (ads / stories / posts — not embedded on the site)
 assets/social/instagram/events/

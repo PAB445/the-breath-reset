@@ -31,7 +31,6 @@
         <a href="index.html#method">The Method</a>
         <a href="practice.html">Practice</a>
         <a href="index.html#breathe">Breathe with me</a>
-        <a href="events.html">Events</a>
         <a href="about.html" aria-current="page">About</a>
         <a class="nav-cta" href="#waitlist">Join the waitlist</a>
       </nav>
@@ -129,8 +128,9 @@
           </div>
           <div class="closing-actions reveal" id="waitlist">
             <p>Six weeks across Relax, Retrain and Release. Details are coming soon, and the waitlist hears first.</p>
-            <form class="waitlist" action="https://formspree.io/f/FORMSPREE_FORM_ID" method="POST" data-waitlist>
+            <form class="waitlist" action="#waitlist" method="POST" data-waitlist>
               <input type="hidden" name="list" value="Six-week programme">
+              <input type="hidden" name="consent" value="yes">
               <input type="hidden" name="_subject" value="Waitlist: six-week programme">
               <label class="visually-hidden" for="wl-about">Email address</label>
               <div class="waitlist-row">
@@ -155,7 +155,6 @@
             <a href="index.html#method">The Method</a>
             <a href="practice.html">Practice</a>
             <a href="index.html#breathe">Breathe with me</a>
-            <a href="events.html">Events</a>
             <a href="about.html">About</a>
           </nav>
           <div class="footer-col">
@@ -174,6 +173,7 @@
 
     <a class="sticky-cta" href="#waitlist" data-sticky-cta>Join the six-week waitlist</a>
 
+    <script src="signup-config.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
