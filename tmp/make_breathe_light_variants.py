@@ -215,8 +215,8 @@ def build_no_bolt():
 
     src = os.path.join(out, "source")
     os.makedirs(out, exist_ok=True)
-    if not os.path.exists(src):
-        os.symlink(os.path.join(ORIG, "source"), src)
+    if not os.path.lexists(src):
+        os.symlink(os.path.join("..", "breathe-light", "source"), src)
     tl = {
         "total": round(total, 3), "preroll": preroll, "fps_hint": 24,
         "voice_start": preroll, "last_word_end": mapped[-1]["e"],
@@ -330,8 +330,8 @@ def build_v2():
     for name in ("breathe-light-mix.wav", "breathe-light-voice.wav",
                  "breathe-light-music.wav", "source"):
         dest = os.path.join(out, name)
-        if not os.path.exists(dest):
-            os.symlink(os.path.join(ORIG, name), dest)
+        if not os.path.lexists(dest):
+            os.symlink(os.path.join("..", "breathe-light", name), dest)
     tl = json.load(open(os.path.join(ORIG, "breathe-light-edit.json")))
     tl["close_line"] = CLOSE
     tl["close_size"] = 104
