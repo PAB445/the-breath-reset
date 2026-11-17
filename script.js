@@ -1,3 +1,20 @@
+/* Preserve bookmarks to content moved off the homepage. */
+if (/\/(?:index\.html)?$/.test(location.pathname)) {
+  const movedSections = {
+    "#programme": "programme.html",
+    "#lab": "practice.html#lab",
+    "#lab-check": "practice.html#lab-check",
+    "#class-times": "breathe-with-me.html#class-times",
+    "#safety": "programme.html#safety"
+  };
+  const followMovedSection = () => {
+    const destination = movedSections[location.hash];
+    if (destination) location.replace(destination);
+  };
+  followMovedSection();
+  window.addEventListener("hashchange", followMovedSection);
+}
+
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 /* ---------- Header + nav ---------- */
@@ -452,7 +469,7 @@ document.querySelectorAll("[data-waitlist]").forEach((form) => {
 
     try {
       const data = new URLSearchParams(new FormData(form));
-      data.set("source", location.pathname.split("/").pop() || "index.html");
+      data.set("source", form.dataset.signupSource || location.pathname.split("/").pop() || "index.html");
       const response = await fetch(endpoint, {
         method: "POST",
         body: data,

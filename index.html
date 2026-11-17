@@ -2,6 +2,12 @@
 <html lang="en-AU">
   <head>
     <meta charset="utf-8">
+    <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-KVW8DDSL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>The Breath Reset | Breathwork in Sydney with Suraj</title>
     <meta name="description" content="Breathwork classes, workshops and 1:1 sessions in Sydney. Practical breathing for stress, functional breathing and CO₂ tolerance, and deeper breathwork when you're ready.">
@@ -19,7 +25,7 @@
     <link rel="stylesheet" href="styles.css">
     <script>document.documentElement.classList.add("js")</script>
   </head>
-  <body>
+  <body class="refined home-page">
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header" data-header>
@@ -29,11 +35,11 @@
       </a>
       <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav" data-nav-toggle><span></span><span></span></button>
       <nav class="site-nav" id="site-nav" aria-label="Main" data-nav>
-        <a href="#method">The Method</a>
+        <a href="programme.html">Programme</a>
+        <a href="breathe-with-me.html">Breathe with me</a>
         <a href="practice.html">Practice</a>
-        <a href="#breathe">Breathe with me</a>
         <a href="about.html">About</a>
-        <a class="nav-cta" href="#waitlist">Join the waitlist</a>
+        <a class="nav-cta" href="programme.html">Explore the programme</a>
       </nav>
     </header>
 
@@ -42,276 +48,85 @@
       <!-- 1. Hero -->
       <section class="hero surface-night" aria-labelledby="hero-title">
         <div class="orb orb-breathing" aria-hidden="true"></div>
+
         <div class="wrap hero-grid">
           <div class="hero-copy">
             <p class="label">Relax · Retrain · Release</p>
             <h1 id="hero-title">Learn to work with your breath, <em>not just take a deep&nbsp;one.</em></h1>
-            <p class="lede">Your breath affects how you feel, how you move and how you respond to stress. At The Breath Reset, you’ll learn practical ways to breathe better in everyday life, with the opportunity to explore deeper breathwork experiences when you’re ready.</p>
+            <p class="lede">Practical tools for everyday life. Deeper guided experiences when you’re ready. Discover what your breath can do for you.</p>
             <div class="actions">
-              <a class="button button-primary" href="#programme">Join the six-week waitlist</a>
-              <a class="button button-ghost" href="#lab">Try a 90-second breath</a>
+              <a class="button button-primary" href="programme.html">Explore the six-week programme</a>
+              <a class="button button-ghost" href="practice.html#lab">Try a 90-second breath</a>
             </div>
             <p class="hero-meta">Sydney · 1:1 · Small groups · Classes · Workshops</p>
           </div>
           <figure class="hero-figure">
             <img src="assets/photos/hero-suraj-facilitating.jpg" alt="Suraj kneeling beside a participant during breathwork, a hand resting gently on their chest" width="900" height="1125" fetchpriority="high">
-            <figcaption>Suraj · The Inner Exhale</figcaption>
+            <figcaption>Breathing, learning and exploring together · The Inner Exhale</figcaption>
           </figure>
         </div>
       </section>
 
-      <!-- 2. No single breath -->
-      <section class="section surface-paper" aria-labelledby="states-title">
+      <section class="section surface-paper" id="method" aria-labelledby="method-title">
         <div class="wrap">
-          <div class="section-head reveal">
-            <p class="label">The idea</p>
-            <h2 id="states-title">There is no single breath for every state.</h2>
-            <p class="lede muted">Most breathing advice comes down to "slow down and take a deep breath". Sometimes that helps. A lot of the time it's the wrong tool. A wired body, a scattered mind and a hard training session all need something different.</p>
-          </div>
-
-          <ol class="states-list">
-            <li class="state-row reveal">
-              <p class="state-name"><small>01</small>Wired</p>
-              <svg class="trace trace-draw" data-trace="wired" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg>
-              <p class="state-breath"><strong>Slower, quieter breathing</strong><span>Longer exhale · less air, not more</span><a class="state-link" href="practice.html#extended-exhale">Try extended exhale →</a></p>
-            </li>
-            <li class="state-row reveal">
-              <p class="state-name"><small>02</small>Scattered</p>
-              <svg class="trace trace-draw" data-trace="scattered" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg>
-              <p class="state-breath"><strong>Rhythm and structure</strong><span>Equal counts · 5 in, 5 out</span><a class="state-link" href="practice.html#coherent">Try coherent breathing →</a></p>
-            </li>
-            <li class="state-row reveal">
-              <p class="state-name"><small>03</small>Everyday</p>
-              <svg class="trace trace-draw" data-trace="everyday" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg>
-              <p class="state-breath"><strong>Nasal, light and efficient</strong><span>Through the nose · low · barely audible</span><a class="state-link" href="#lab-check">Try the breathing check →</a></p>
-            </li>
-            <li class="state-row reveal">
-              <p class="state-name"><small>04</small>Training</p>
-              <svg class="trace trace-draw" data-trace="training" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg>
-              <p class="state-breath"><strong>Build breathing capacity</strong><span>Breath control · CO₂ tolerance · Exercise</span><a class="state-link" href="#programme">Explore breathing capacity →</a></p>
-            </li>
-            <li class="state-row reveal">
-              <p class="state-name"><small>05</small>Ready to explore</p>
-              <svg class="trace trace-draw" data-trace="explore" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg>
-              <p class="state-breath"><strong>Go deeper into the body</strong><span>Connected breathing · Music · Emotion</span><a class="state-link" href="#programme">Explore guided sessions →</a></p>
-            </li>
-          </ol>
-          <div class="states-foot">
-            <span class="legend">Each line: how breathing tends to look in that state, shifting into what we practise.</span>
-            <span>Illustrative, not measured.</span>
+          <div class="section-head reveal"><p class="label">The method</p><h2 id="method-title">Three ways to work with your breath.</h2><p class="lede muted">There is no single breath for every state. Learn when to settle, how to build better breathing habits, and when to explore something deeper.</p></div>
+          <div class="method-summary">
+            <article class="reveal"><p class="label">01 · Change your state</p><h3>Relax</h3><p>Simple breathing tools for when you feel wired, overwhelmed or unable to switch off.</p><svg class="trace" data-trace="relax" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg></article>
+            <article class="reveal"><p class="label">02 · Change your habits</p><h3>Retrain</h3><p>Understand how you breathe every day and practise small changes at rest and during exercise.</p><svg class="trace" data-trace="retrain" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg></article>
+            <article class="reveal"><p class="label">03 · Connect with your body</p><h3>Release</h3><p>Explore deeper guided experiences with breath, music and space to go at your own pace.</p><svg class="trace" data-trace="release" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg></article>
           </div>
         </div>
       </section>
 
-      <!-- 3. Method -->
-      <section class="section surface-night" id="method" aria-labelledby="method-title">
-        <div class="wrap">
-          <div class="method-intro reveal">
-            <div>
-              <p class="label">The method</p>
-              <h2 id="method-title">Three ways to work with your breath.</h2>
-            </div>
-
-          </div>
-
-          <article class="pillar reveal" aria-labelledby="p-relax">
-            <div class="pillar-word">
-              <span class="label">01</span>
-              <h3 id="p-relax">Relax</h3>
-            </div>
-            <div class="pillar-body">
-              <p class="pillar-line">Change your state.</p>
-              <p>Simple tools for when you feel wired, overwhelmed, restless or can't switch off. Slower rhythms and longer exhales you can use on the train, at your desk or lying in bed.</p>
-              <p class="pillar-examples">Coherent breathing · Longer exhales · Slow breathing · Sleep</p>
-            </div>
-            <svg class="trace" data-trace="relax" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg>
-          </article>
-
-          <article class="pillar reveal" aria-labelledby="p-retrain">
-            <div class="pillar-word">
-              <span class="label">02</span>
-              <h3 id="p-retrain">Retrain</h3>
-            </div>
-            <div class="pillar-body">
-              <p class="pillar-line">Change the way you breathe.</p>
-              <p>Most of us rarely think about how we breathe throughout the day. Retrain helps you understand your breathing habits and make small changes that can improve how you breathe at rest, during exercise and in everyday life.</p>
-              <p class="pillar-examples">Nasal breathing · Breathing mechanics · CO₂ tolerance · Exercise</p>
-            </div>
-            <svg class="trace" data-trace="retrain" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg>
-          </article>
-
-          <article class="pillar reveal" aria-labelledby="p-release">
-            <div class="pillar-word">
-              <span class="label">03</span>
-              <h3 id="p-release">Release</h3>
-            </div>
-            <div class="pillar-body">
-              <p class="pillar-line">Connect more deeply with your body.</p>
-              <p>These longer, immersive sessions use breath, music and movement to help you move out of your head and into your body. There’s space to explore sensations and emotions, with the freedom to go at your own pace.</p>
-              <p class="pillar-examples">Connected breathing · Music · Movement · Integration</p>
-            </div>
-            <svg class="trace" data-trace="release" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg>
-          </article>
-
-          <div class="method-outro reveal">
-            <div>
-              <h3>Each has its place.</h3>
-              <p class="days">
-                <span>Relax when you need to settle.</span>
-                <span>Retrain how you breathe every day.</span>
-                <span>Release when you’re ready to explore deeper.</span>
-              </p>
-            </div>
-            <p class="muted">The goal isn’t to feel calm all the time. It’s to become more comfortable with different states and learn how to work with your breath through them.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- 4. Breath Lab -->
-      <section class="section surface-night-2" id="lab" aria-labelledby="lab-title">
-        <div class="wrap lab">
-          <div class="lab-head reveal">
-            <p class="label">Breath Lab</p>
-            <h2 id="lab-title">Don't take my word for it. Try your breath.</h2>
-            <p>The best way to understand your breath is to experience it. Try one of these short exercises and notice how you feel afterwards. You might be surprised by what changes in just 90 seconds.</p>
-            <p class="lab-steps" aria-label="Learn, try, notice"><span>Learn</span><span>Try</span><span>Notice</span></p>
-
-            <div class="lab-modes" role="group" aria-label="Choose an experiment">
-              <button id="lab-check" class="lab-mode" type="button" data-lab-mode="check" aria-pressed="false">
-                <span class="num">01</span><strong>Breathing check</strong><small>60 sec</small>
-              </button>
-              <button class="lab-mode" type="button" data-lab-mode="coherent" aria-pressed="true">
-                <span class="num">02</span><strong>Coherent breath</strong><small>5 in · 5 out</small>
-              </button>
-              <button class="lab-mode" type="button" data-lab-mode="exhale" aria-pressed="false">
-                <span class="num">03</span><strong>Extended exhale</strong><small>4 in · 6 out</small>
-              </button>
-              <button class="lab-mode" type="button" data-lab-mode="hold" aria-pressed="false">
-                <span class="num">04</span><strong>Breath-hold baseline</strong><small>Stopwatch</small>
-              </button>
-            </div>
-          </div>
-
-          <!-- VIDEO SLOTS: once filmed, add guided videos for the breathing check and
-               breath-hold baseline to practice.html and set data-video on the matching
-               mode in script.js (LAB_MODES[mode].video). -->
-          <div class="lab-panel reveal" data-lab aria-live="off">
-            <div class="lab-stage" aria-hidden="true">
-              <span class="ring"></span>
-              <div class="orb" data-lab-orb></div>
-              <span class="lab-cue" data-lab-cue>Ready</span>
-            </div>
-            <p class="lab-readout" data-lab-readout>01:30</p>
-            <p class="lab-text" data-lab-text aria-live="polite"></p>
-            <button class="button button-primary" type="button" data-lab-start>Start</button>
-            <p class="lab-caveat" data-lab-caveat hidden></p>
-            <p class="lab-more" data-lab-more hidden></p>
-          </div>
-        </div>
-      </section>
-
-      <!-- 5. Breathe with me -->
-      <section class="section surface-paper" id="breathe" aria-labelledby="breathe-title">
+      <section class="section surface-paper-2" id="breathe" aria-labelledby="breathe-title">
         <div class="wrap">
           <div class="section-head reveal">
             <p class="label">Breathe with me</p>
-            <h2 id="breathe-title">Ways to breathe with me.</h2>
-            <p class="lede muted">Some sessions are about slowing down and learning simple tools you can use every day. Others are about turning up the music, exploring deeper breathing and seeing what happens.</p>
+            <h2 id="breathe-title">Find your way in.</h2>
+            <p class="lede muted">Build a foundation over six weeks, join a group session or work with me one to one.</p>
           </div>
-
-          <ol class="formats"><li class="format format-featured reveal"><span class="num">01</span><div><h3>The six-week programme</h3><span class="format-meta">Details coming soon</span></div><p>A six-week journey into understanding your breath and learning how to use it. Each week combines practical education, breathing experiments and guided experiences, helping you build a toolkit you can use long after the programme ends.</p><a class="arrow-link format-action" href="#programme">Explore the program</a></li><li class="format  reveal"><span class="num">02</span><div><h3>Classes</h3><span class="format-meta">Sydney · small groups</span></div><p>Accessible breathwork sessions combining simple techniques with a guided breathing experience. You’ll leave with something practical you can use in everyday life.</p><a class="arrow-link format-action" href="#class-times">Class times</a></li><li class="format  reveal"><span class="num">03</span><div><h3>Workshops</h3><span class="format-meta">Sydney · 2–3 hours</span></div><p>Longer experiences combining interesting breathwork education, practical exercises and an immersive guided breathwork journey with music. We finish with time to rest, reflect and connect.</p><a class="arrow-link format-action" href="https://www.instagram.com/the.breath.reset/" target="_blank" rel="noopener">Hear about the next workshop</a></li><li class="format  reveal"><span class="num">04</span><div><h3>1:1</h3><span class="format-meta">Sydney or online</span></div><p>Personalised sessions based on your breathing habits, goals and experience. We can focus on practical breathing techniques, deeper breathwork or a combination of both, depending on what you’re looking for.</p><a class="arrow-link format-action" href="https://ig.me/m/the.breath.reset" target="_blank" rel="noopener">Message me on Instagram</a></li></ol><div class="class-times reveal" id="class-times"><p class="label">Class times · Coming soon</p><h3>NEON Pilates</h3><p>Thursdays at 5:45pm · Proposed time, still to be confirmed.</p><a class="arrow-link" href="#waitlist">Hear when classes open</a></div>
-        </div>
-      </section>
-
-      <!-- 6. Six-week programme -->
-      <section class="section surface-paper-2" id="programme" aria-labelledby="programme-title">
-        <div class="wrap">
-          <div class="programme-head reveal">
-            <div>
-              <p class="label">The programme</p>
-              <h2 id="programme-title">Six weeks. A different relationship with your breath.</h2>
-            </div>
-            <div class="programme-description">
-            <p class="lede">Learn how your breath influences the way you feel, and how to use it in everyday life.</p><p>Over six weeks, we’ll explore how to recognise your state, use different breathing techniques to shift how you feel, and build greater comfort with the sensations and emotions that arise in your body.</p><p>Each session combines interesting theory, practical experiments and guided breathwork. You’ll leave with something new to practise each week, building a toolkit you can keep using long after the programme ends.</p>
-            </div>
-          </div>
-
-          <ol class="weeks reveal"><li class="phase"><p class="phase-head"><span class="label">Week 01 — THE POWER OF BREATH</span></p><div class="week"><h3>Notice</h3><p>Discover how your breathing changes with your state, and how changing your breath can influence how you feel.</p><p>We’ll experiment with different breathing patterns so you can experience these changes for yourself.</p></div></li><li class="phase"><p class="phase-head"><span class="label">Week 02 — RETRAIN</span></p><div class="week"><h3>Breathe Better</h3><p>Explore how you breathe throughout the day, from nasal breathing and breathing mechanics to the role of CO₂.</p><p>Learn simple ways to improve your everyday breathing habits.</p></div></li><li class="phase"><p class="phase-head"><span class="label">Week 03 — RELAX</span></p><div class="week"><h3>Find Your Calm</h3><p>Learn how to use slower breathing, steady rhythms and longer exhales to help you settle when you’re feeling stressed, overwhelmed or unable to switch off.</p><p>Take away practical techniques you can use at work, at home or before bed.</p></div></li><li class="phase"><p class="phase-head"><span class="label">Week 04 — BUILD CAPACITY</span></p><div class="week"><h3>Explore Your Range</h3><p>Being regulated doesn’t mean being calm all the time.</p><p>Explore how different breathing patterns can create activation or help you settle, and practise staying present with different sensations.</p><p>Learn when to use different approaches and how to work with your breath during moments of stress or physical activity.</p></div></li><li class="phase"><p class="phase-head"><span class="label">Week 05 — RELEASE</span></p><div class="week"><h3>Go Deeper</h3><p>Move beyond everyday breathing techniques into a longer, immersive breathwork experience.</p><p>Using fuller breathing, music and guided practice, we’ll create space to connect more deeply with your body and explore whatever sensations or emotions arise.</p></div></li><li class="phase"><p class="phase-head"><span class="label">Week 06 — RELEASE &amp; INTEGRATE</span></p><div class="week"><h3>Let Go</h3><p>Our final session explores conscious connected breathing, with less instruction and more space to follow your own experience.</p><p>We’ll finish by reflecting on what you’ve learnt and bringing together a personal breathing toolkit you can continue using.</p></div></li></ol>
-
-          <div class="week-includes reveal">
-            <div>
-              <h3>Every week includes</h3>
-            </div>
-            <ol>
-              <li><span><strong>Understand</strong><br>An interesting concept about breathing and how it affects you.</span></li>
-              <li><span><strong>Experiment</strong><br>Try different breathing techniques and notice what happens.</span></li>
-              <li><span><strong>Experience</strong><br>A longer guided breathwork session to put it into practice.</span></li>
-              <li><span><strong>Take home</strong><br>A simple breathing exercise to practise during the week.</span></li>
-              <li><span><strong>Reflect</strong><br>Notice what’s changing and how you can apply what you’ve learnt.</span></li>
-            </ol>
-          </div>
-
-          <div class="programme-takeaway reveal"><h3>It’s not about getting good at breathwork.</h3><p>It’s about what changes outside the sessions. Feeling more equipped when you’re stressed, understanding your breathing habits, being more present in your body, and having practices you know how to use when you need them.</p></div>
-          <div class="week-includes reveal" id="waitlist">
-            <div>
-              <h3>Dates and pricing coming soon.</h3>
-              <p class="muted">Join the waitlist to hear when the next six-week programme opens.</p>
-            </div>
-            <form class="waitlist" action="#waitlist" method="POST" data-waitlist>
-              <input type="hidden" name="list" value="Six-week programme">
-              <input type="hidden" name="consent" value="yes">
-              <input type="hidden" name="_subject" value="Waitlist: six-week programme">
-              <label class="visually-hidden" for="wl-programme">Email address</label>
-              <div class="waitlist-row">
-                <input id="wl-programme" type="email" name="email" placeholder="Your email" autocomplete="email" required>
-                <button class="button button-primary" type="submit">Join the waitlist</button>
-              </div>
-              <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
-              <p class="waitlist-note">By joining, you agree to email updates about the programme and upcoming events. You can ask to be removed at any time.</p>
-              <p class="waitlist-status" role="status" aria-live="polite"></p>
-            </form>
+          <div class="home-offerings">
+            <article class="home-offering reveal">
+              <p class="label">Build a foundation</p>
+              <h3>Six-week programme</h3>
+              <p class="offering-description">Learn how your breath works, explore guided experiences and build a toolkit to use in everyday life.</p>
+              <p class="offering-detail">Six weeks · Dates and pricing coming soon</p>
+              <a class="arrow-link" href="programme.html">Explore the programme</a>
+            </article>
+            <article class="home-offering reveal">
+              <p class="label">Practise in a group</p>
+              <h3>Classes</h3>
+              <p class="offering-description">Learn simple techniques and put them into practice with a guided breathing session in a small group.</p>
+              <p class="offering-detail">Sydney · Small groups</p>
+              <a class="arrow-link" href="breathe-with-me.html#classes">Explore classes</a>
+            </article>
+            <article class="home-offering reveal">
+              <p class="label">Explore more deeply</p>
+              <h3>Workshops</h3>
+              <p class="offering-description">Take more time to learn, experiment and experience a deeper breathwork journey with music.</p>
+              <p class="offering-detail">Sydney · 2–3 hours</p>
+              <a class="arrow-link" href="breathe-with-me.html#workshops">Explore workshops</a>
+            </article>
+            <article class="home-offering reveal">
+              <p class="label">Focus on you</p>
+              <h3>1:1 sessions</h3>
+              <p class="offering-description">Work with me on your breathing habits and goals, with guidance tailored to your experience and pace.</p>
+              <p class="offering-detail">Sydney or online · Personalised guidance</p>
+              <a class="arrow-link" href="breathe-with-me.html#one-to-one">Explore 1:1 sessions</a>
+            </article>
           </div>
         </div>
       </section>
 
-      <!-- 7. Past event -->
-      <section class="section surface-night" aria-labelledby="event-title">
-        <div class="wrap event-feature">
-          <div class="event-feature-copy reveal">
-            <p class="label">The Inner Exhale</p>
-            <h2 id="event-title">Inside the <em>experience</em></h2>
-            <p>We brought together a room of people for an afternoon of breathing, music and exploration. A little learning, a lot of experiencing, and space to connect with ourselves and each other.</p>
-            <dl class="event-facts">
-              <div><dt>When</dt><dd>11 October 2026</dd></div>
-              <div><dt>Where</dt><dd>Marrickville, Sydney</dd></div>
-              <div><dt>Length</dt><dd>3 hours</dd></div>
-              <div><dt>Breathwork</dt><dd>75-minute guided flow</dd></div>
-            </dl>
-            <p>We began by exploring how our breathing affects the way we feel, with a few simple experiments to experience it firsthand.</p><p>Then the breathing got fuller, the music got louder, and we moved into a longer guided breathwork journey.</p><p>We finished with stillness, reflection and conversation, with a few simple breathing practices to take into everyday life.</p>
-            <blockquote class="event-quote">
+      <section class="section surface-night experience-section" aria-labelledby="event-title"><div class="wrap event-feature"><div class="event-feature-copy reveal"><p class="label">A glimpse inside</p><h2 id="event-title">Inside the <em>experience</em></h2><blockquote class="event-quote">
               <p>“This workshop gave me so much peace through presence. It’s emotional, powerful, and uplifting. If you’re reading this, look for me at the next one.”</p>
               <cite>Bakari, Inner Exhale participant</cite>
-            </blockquote>
-            <a class="arrow-link" href="https://www.instagram.com/the.breath.reset/" target="_blank" rel="noopener">Follow me for the next event</a>
-          </div>
-
-          <div class="event-gallery reveal">
-            <figure class="event-media event-media-wide">
+            </blockquote><a class="arrow-link" href="breathe-with-me.html#past">Step inside The Inner Exhale</a></div><div class="reveal"><figure class="event-media event-media-wide">
               <video data-ambient muted loop playsinline preload="metadata" poster="assets/events/inner-exhale/inner-exhale-poster.jpg" width="1024" height="576" aria-label="A slow pan across the room during the guided breathwork at The Inner Exhale">
                 <source src="assets/events/inner-exhale/inner-exhale-web.mp4" type="video/mp4">
               </video>
-            </figure>
-            <figure class="event-media event-media-tall">
-              <img src="assets/events/inner-exhale/inner-exhale-circle.jpg" alt="Participants sitting in a circle with hands on chest and belly, following Suraj’s demonstration during The Inner Exhale" width="1024" height="682" loading="lazy" decoding="async">
-            </figure>
-            <figure class="event-media event-media-tall">
-              <img src="assets/events/inner-exhale/inner-exhale-drum.jpg" alt="A frame drum carried slowly between the rows of people lying on the floor" width="682" height="1024" loading="lazy" decoding="async">
-            </figure>
-          </div>
-        </div>
-      </section>
+            </figure></div></div></section>
 
-      <!-- 8. Founder -->
       <section class="section surface-paper" aria-labelledby="founder-title">
         <div class="wrap founder">
           <!-- PHOTO SLOT: founder-candid. Replace with a relaxed, unposed photo of Suraj
@@ -320,99 +135,10 @@
             <img src="assets/photos/suraj-founder-film-2.jpg" alt="Suraj talking to camera in the founder film" width="900" height="1600" loading="lazy" decoding="async">
             <figcaption>From the founder film, 2026</figcaption>
           </figure>
-          <div class="founder-copy reveal">
-            <p class="label">Why I do this</p>
-            <h2 id="founder-title">My mind understood. <em>My body didn't.</em></h2>
-            <p class="first">I've had anxiety since my late teens. From the outside I was fine. I went to work, saw friends, went to the gym. Inside, my body felt like it was bracing for something, even when nothing was wrong.</p>
-            <p>Therapy, books and meditation all helped. I got better at noticing my thought loops and not getting pulled into them, and honestly, that changed my life. But my body was still on edge.</p>
-            <div class="questions" aria-label="The question that changed">
-              <span class="was">"What am I thinking?"</span>
-              <span class="now">"What's happening in my body?"</span>
-            </div>
-            <p>Three years ago I did my first breathwork session. I remember leaving with a sense of relief. I already understood my anxiety. This was the first time my body seemed to soften with it. The Breath Reset grew out of that.</p>
-            <p>Now I want to help other people discover what their breath can do for them, whether that’s finding a little more calm in everyday life or exploring something deeper.</p><p class="signature">Suraj</p>
-            <div class="actions">
-              <a class="arrow-link" href="about.html">Read my story</a>
+          <div class="founder-copy reveal"><p class="label">Meet Suraj</p><h2 id="founder-title">My mind understood. <em>My body didn't.</em></h2><p>Therapy, books and meditation helped me understand my anxiety. Breathwork gave me a different way to connect with what was happening in my body.</p><p>The Breath Reset grew out of that experience, and a wish to help others discover what their breath can do for them.</p><a class="arrow-link" href="about.html">Read my story</a></div></div></section>
 
-            </div>
-          </div>
-        </div>
-      </section>
+      <section class="section surface-night closing" id="waitlist" aria-labelledby="closing-title">
 
-      <!-- 9. Practice library -->
-      <section class="section surface-night" aria-labelledby="practice-title">
-        <div class="wrap want">
-          <div class="section-head reveal">
-            <p class="label">Practice</p>
-            <h2 id="practice-title">Free practices, sorted by what you need.</h2>
-            <p class="muted">Simple guided breathing practices you can return to whenever you need them. Whether you’re looking to wind down, find a steady rhythm or simply take a few minutes for yourself.</p><p class="label">Free · No sign-up required</p>
-            <p><a class="arrow-link" href="practice.html">Open the practice library</a></p>
-          </div>
-          <div class="want-cards reveal">
-            <a class="want-card" href="practice.html#extended-exhale">
-              <img src="assets/social/instagram/practices/extended-exhale/poster-web.jpg" alt="" width="576" height="1024" loading="lazy" decoding="async">
-              <span class="want-need">I want to wind down</span>
-              <span class="want-what">Extended exhale · 4 in, 6 out</span>
-            </a>
-            <a class="want-card" href="practice.html#coherent">
-              <img src="assets/social/instagram/practices/coherent/poster-web.jpg" alt="" width="576" height="1024" loading="lazy" decoding="async">
-              <span class="want-need">I want to find a rhythm</span>
-              <span class="want-what">Coherent breathing · 5 in, 5 out</span>
-            </a>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- 10. Testimonials: hidden until there are real, consented quotes.
-           Remove the hidden attribute and replace the template blockquotes. -->
-      <section class="section surface-paper" aria-labelledby="quotes-title" hidden>
-        <div class="wrap">
-          <div class="section-head">
-            <p class="label">In their words</p>
-            <h2 id="quotes-title">What people noticed.</h2>
-          </div>
-          <div class="quotes">
-            <blockquote>
-              <p>QUOTE_TEXT</p>
-              <cite>FIRST_NAME · SESSION_TYPE</cite>
-            </blockquote>
-          </div>
-        </div>
-      </section>
-
-      <!-- Safety -->
-      <section class="section surface-paper" id="safety" aria-labelledby="safety-title">
-        <div class="wrap safety">
-          <div class="safety-head reveal">
-            <p class="label">How sessions work</p>
-            <h2 id="safety-title">You're in charge of your breath.</h2>
-            <p>Every experience is different, and you’re always in control of how far you take it. There’s no pressure to push yourself or have a particular experience.</p>
-          </div>
-          <div class="safety-points reveal">
-            <div>
-              <h3>You can always stop</h3>
-              <p>You’re welcome to slow down, return to your natural breathing, open your eyes or stop completely at any point. You never need to explain why.</p>
-            </div>
-            <div>
-              <h3>We check before going deeper</h3>
-              <p>More intense breathing isn’t suitable for everyone. Before a deeper session, we’ll ask about your health and any relevant medical conditions to make sure the practice is appropriate for you. Some people may need to avoid certain techniques or seek medical clearance first.</p>
-            </div>
-            <div>
-              <h3>Intensity isn’t the goal</h3>
-              <p>Some people feel calm. Others experience strong sensations or emotions. There’s no right way to feel, and you don’t need to have a breakthrough for the experience to be worthwhile.</p>
-            </div>
-            <div>
-              <h3>Breathwork isn’t therapy</h3>
-              <p>Breathwork can be a useful complement to other forms of care, but it doesn’t replace medical or mental health treatment.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Closing -->
-      <section class="section surface-night closing" aria-labelledby="closing-title">
-        <div class="orb orb-breathing" aria-hidden="true"></div>
         <div class="wrap">
           <div class="reveal">
             <p class="label">What's next</p>
@@ -444,17 +170,17 @@
         <div class="footer-grid">
           <p class="footer-word" aria-label="Relax, Retrain, Release"><span>Relax</span><span>Retrain</span><span>Release</span></p>
           <nav class="footer-col" aria-label="Footer">
-            <p class="label">Explore</p>
-            <a href="index.html#method">The Method</a>
-            <a href="practice.html">Practice</a>
-            <a href="index.html#breathe">Breathe with me</a>
-            <a href="about.html">About</a>
-          </nav>
+<p class="label">Explore</p>
+<a href="programme.html">Programme</a>
+<a href="breathe-with-me.html">Breathe with me</a>
+<a href="practice.html">Practice</a>
+<a href="about.html">About</a>
+</nav>
           <div class="footer-col">
             <p class="label">Say hello</p>
             <a href="https://www.instagram.com/the.breath.reset/" target="_blank" rel="noopener">@the.breath.reset</a>
             <a href="https://ig.me/m/the.breath.reset" target="_blank" rel="noopener">Send a message</a>
-            <a href="index.html#waitlist">Join the waitlist</a>
+            <a href="index.html#waitlist">Explore the programme</a>
           </div>
         </div>
         <div class="footer-base">
@@ -464,7 +190,7 @@
       </div>
     </footer>
 
-    <a class="sticky-cta" href="#waitlist" data-sticky-cta>Join the six-week waitlist</a>
+    <a class="sticky-cta" href="programme.html" data-sticky-cta>Explore the six-week programme</a>
 
     <script src="signup-config.js"></script>
     <script src="script.js"></script>

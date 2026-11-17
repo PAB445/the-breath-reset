@@ -2,6 +2,12 @@
 <html lang="en-AU">
   <head>
     <meta charset="utf-8">
+    <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-KVW8DDSL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Free Breathing Exercises | Practice | The Breath Reset</title>
     <meta name="description" content="Free guided breathing exercises for stress, winding down and finding a rhythm: extended exhale and coherent breathing, with notes on why they work.">
@@ -18,7 +24,7 @@
     <link rel="stylesheet" href="styles.css">
     <script>document.documentElement.classList.add("js")</script>
   </head>
-  <body>
+  <body class="refined practice-route">
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header" data-header>
@@ -28,31 +34,74 @@
       </a>
       <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav" data-nav-toggle><span></span><span></span></button>
       <nav class="site-nav" id="site-nav" aria-label="Main" data-nav>
-        <a href="index.html#method">The Method</a>
+        <a href="programme.html">Programme</a>
+        <a href="breathe-with-me.html">Breathe with me</a>
         <a href="practice.html" aria-current="page">Practice</a>
-        <a href="index.html#breathe">Breathe with me</a>
         <a href="about.html">About</a>
-        <a class="nav-cta" href="#waitlist">Join the waitlist</a>
+        <a class="nav-cta" href="programme.html#waitlist">Join the waitlist</a>
       </nav>
     </header>
 
     <main id="main">
-      <section class="page-hero surface-night" aria-labelledby="page-title">
+      <section class="page-hero surface-night practice-hero" aria-labelledby="page-title">
         <div class="orb orb-breathing" aria-hidden="true"></div>
         <div class="wrap">
-          <p class="label">Practice</p>
-          <h1 id="page-title">Free practices, sorted by what you need.</h1>
-          <p class="lede">Short guided videos you can do anywhere. Pick the one that fits the moment, follow along, then notice what changed.</p>
-          <nav class="need-nav" aria-label="Choose by need">
-            <a href="#extended-exhale"><span class="what">I want to</span><span class="need">Wind down</span><span class="what">Extended exhale</span></a>
-            <a href="#coherent"><span class="what">I want to</span><span class="need">Find a rhythm</span><span class="what">Coherent breathing</span></a>
-          </nav>
+          <p class="label">Free practices</p>
+          <h1 id="page-title">A little time.<br>A different feeling.</h1>
+          <p class="lede">Choose an exercise, follow along and notice what changes.</p>
+          <div class="practice-hero-actions">
+            <a class="button button-primary" href="#lab">Try the Breath Lab</a>
+            <a class="arrow-link" href="#guided">Prefer a guided video?</a>
+          </div>
         </div>
       </section>
 
-      <section class="section surface-paper" aria-label="Practices">
+      <section class="section surface-night" id="lab" aria-labelledby="lab-title">
+        <div class="wrap lab">
+          <div class="lab-head reveal">
+            <p class="label">Breath Lab</p>
+            <h2 id="lab-title">Find your rhythm.</h2>
+            <p>Choose a short experiment. Keep it comfortable, and return to your natural breathing whenever you need to.</p>
+
+
+            <div class="lab-modes" role="group" aria-label="Choose an experiment">
+              <button id="lab-check" class="lab-mode" type="button" data-lab-mode="check" aria-pressed="false">
+                <span class="num">01</span><strong>Breathing check</strong><small>60 sec</small>
+              </button>
+              <button class="lab-mode" type="button" data-lab-mode="coherent" aria-pressed="true">
+                <span class="num">02</span><strong>Coherent breath</strong><small>5 in · 5 out</small>
+              </button>
+              <button class="lab-mode" type="button" data-lab-mode="exhale" aria-pressed="false">
+                <span class="num">03</span><strong>Extended exhale</strong><small>4 in · 6 out</small>
+              </button>
+              <button class="lab-mode" type="button" data-lab-mode="hold" aria-pressed="false">
+                <span class="num">04</span><strong>Breath-hold baseline</strong><small>Stopwatch</small>
+              </button>
+            </div>
+          </div>
+
+          <!-- VIDEO SLOTS: once filmed, add guided videos for the breathing check and
+               breath-hold baseline to practice.html and set data-video on the matching
+               mode in script.js (LAB_MODES[mode].video). -->
+          <div class="lab-panel reveal" data-lab aria-live="off">
+            <div class="lab-stage" aria-hidden="true">
+              <span class="ring"></span>
+              <div class="orb" data-lab-orb></div>
+              <span class="lab-cue" data-lab-cue>Ready</span>
+            </div>
+            <p class="lab-readout" data-lab-readout>01:30</p>
+            <p class="lab-text" data-lab-text aria-live="polite"></p>
+            <button class="button button-primary" type="button" data-lab-start>Start</button>
+            <p class="lab-caveat" data-lab-caveat hidden></p>
+            <p class="lab-more" data-lab-more hidden></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section surface-paper" id="guided" aria-labelledby="guided-title">
         <div class="wrap">
 
+          <div class="section-head"><p class="label">Follow along</p><h2 id="guided-title">A voice to guide you.</h2><p>Short videos for winding down or finding a steady rhythm.</p></div>
           <article class="practice" id="extended-exhale" aria-labelledby="ee-title">
             <div class="reel reveal">
               <video controls playsinline preload="none" poster="assets/social/instagram/practices/extended-exhale/poster-web.jpg" aria-label="Extended exhale guided practice">
@@ -78,10 +127,6 @@
                   <dd>When it finishes, let your breath go back to normal. Is your body heavier on the chair? Is your jaw looser? Or nothing much? Any of those answers is useful.</dd>
                 </div>
               </dl>
-              <div class="why-box">
-                <h3>Why the longer exhale?</h3>
-                <p>Your heart rate tends to rise slightly as you breathe in and fall as you breathe out. Making the exhale longer gives more of each breath to the slowing part. Plenty of people find that settling. Some don't, and that's worth knowing too.</p>
-              </div>
             </div>
           </article>
 
@@ -110,10 +155,6 @@
                   <dd>Take one normal breath at the end. Does it feel any different from the breath you took before you started?</dd>
                 </div>
               </dl>
-              <div class="why-box">
-                <h3>Why five and five?</h3>
-                <p>That's about six breaths a minute, often called coherent or resonant breathing. At around that pace, heart rate and breathing tend to rise and fall together in a big, regular wave. The research is promising but still fairly small, so treat it as something to test on yourself.</p>
-              </div>
             </div>
           </article>
 
@@ -122,30 +163,7 @@
 
 
 
-      <section class="section surface-paper-2" aria-labelledby="wl-title">
-        <div class="wrap">
-          <div class="week-includes plain reveal" id="waitlist">
-            <div>
-              <p class="label">Go further</p>
-              <h2 id="wl-title" class="h-sm">Six weeks of this, in a room, with other people.</h2>
-              <p class="muted mt-s">Explore everyday breathing, practical techniques and deeper guided experiences over six weeks. Dates and pricing coming soon.</p>
-            </div>
-            <form class="waitlist" action="#waitlist" method="POST" data-waitlist>
-              <input type="hidden" name="list" value="Six-week programme">
-              <input type="hidden" name="consent" value="yes">
-              <input type="hidden" name="_subject" value="Waitlist: six-week programme">
-              <label class="visually-hidden" for="wl-practice">Email address</label>
-              <div class="waitlist-row">
-                <input id="wl-practice" type="email" name="email" placeholder="Your email" autocomplete="email" required>
-                <button class="button button-primary" type="submit">Join the waitlist</button>
-              </div>
-              <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
-              <p class="waitlist-note">By joining, you agree to email updates about the programme and upcoming events. You can ask to be removed at any time.</p>
-              <p class="waitlist-status" role="status" aria-live="polite"></p>
-            </form>
-          </div>
-        </div>
-      </section>
+
       <!-- Field notes -->
       <section class="section surface-paper" aria-labelledby="notes-title">
         <div class="wrap">
@@ -178,6 +196,30 @@
         </div>
       </section>
 
+<section class="section surface-paper-2" aria-labelledby="wl-title">
+        <div class="wrap">
+          <div class="week-includes plain reveal" id="waitlist">
+            <div>
+              <p class="label">Go further</p>
+              <h2 id="wl-title" class="h-sm">Six weeks of this, in a room, with other people.</h2>
+              <p class="muted mt-s">Explore everyday breathing, practical techniques and deeper guided experiences over six weeks. Dates and pricing coming soon.</p><p><a class="arrow-link" href="programme.html">Explore the six-week programme</a></p>
+            </div>
+            <form class="waitlist" action="#waitlist" method="POST" data-waitlist>
+              <input type="hidden" name="list" value="Six-week programme">
+              <input type="hidden" name="consent" value="yes">
+              <input type="hidden" name="_subject" value="Waitlist: six-week programme">
+              <label class="visually-hidden" for="wl-practice">Email address</label>
+              <div class="waitlist-row">
+                <input id="wl-practice" type="email" name="email" placeholder="Your email" autocomplete="email" required>
+                <button class="button button-primary" type="submit">Join the waitlist</button>
+              </div>
+              <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <p class="waitlist-note">By joining, you agree to email updates about the programme and upcoming events. You can ask to be removed at any time.</p>
+              <p class="waitlist-status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -185,12 +227,12 @@
         <div class="footer-grid">
           <p class="footer-word" aria-label="Relax, Retrain, Release"><span>Relax</span><span>Retrain</span><span>Release</span></p>
           <nav class="footer-col" aria-label="Footer">
-            <p class="label">Explore</p>
-            <a href="index.html#method">The Method</a>
-            <a href="practice.html">Practice</a>
-            <a href="index.html#breathe">Breathe with me</a>
-            <a href="about.html">About</a>
-          </nav>
+<p class="label">Explore</p>
+<a href="programme.html">Programme</a>
+<a href="breathe-with-me.html">Breathe with me</a>
+<a href="practice.html">Practice</a>
+<a href="about.html">About</a>
+</nav>
           <div class="footer-col">
             <p class="label">Say hello</p>
             <a href="https://www.instagram.com/the.breath.reset/" target="_blank" rel="noopener">@the.breath.reset</a>
@@ -205,7 +247,7 @@
       </div>
     </footer>
 
-    <a class="sticky-cta" href="#waitlist" data-sticky-cta>Join the six-week waitlist</a>
+    <a class="sticky-cta" href="programme.html#waitlist" data-sticky-cta>Join the six-week waitlist</a>
 
     <script src="signup-config.js"></script>
     <script src="script.js"></script>
