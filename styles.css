@@ -2608,16 +2608,18 @@ p {
 .refined #breathe .section-head { max-width: 38em; margin-bottom: 36px; }
 .refined .home-offerings {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 36px clamp(32px, 6vw, 80px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 36px clamp(24px, 4vw, 56px);
 }
 .refined .home-offering {
   display: grid;
-  grid-template-rows: auto auto 1fr auto auto;
+  grid-template-rows: auto 1fr auto;
   gap: 14px;
   padding-top: 26px;
   border-top: 1px solid var(--line-light);
 }
+.refined .home-offering-programme { grid-column: 1 / -1; grid-template-rows: auto; padding-bottom: 8px; }
+.refined .home-offering.home-offering-programme h3 { font-size: var(--type-section); }
 .refined .home-offering .label { margin: 0; }
 .refined .home-offering h3 {
   font-family: var(--serif);
